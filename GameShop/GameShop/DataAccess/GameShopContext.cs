@@ -19,7 +19,7 @@ namespace GameShop.DataAccess
         public GameShopContext() : base("name=GameShopContext")
         {
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new CategoryMap());

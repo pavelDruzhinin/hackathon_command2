@@ -28,6 +28,23 @@
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                        }
+                        <li>
+                            <a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Вход", "Login", "Account")</li> 
+                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                    }
+                </ul>
             </div>
         </div>
     </div>
