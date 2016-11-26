@@ -48,3 +48,4 @@ C:\Users\Роман\Documents\hackathon_command2\GameShop\GameShop\bin\ru\System
 C:\Users\Роман\Documents\hackathon_command2\GameShop\GameShop\bin\ru\System.Web.WebPages.Razor.resources.dll
 C:\Users\Роман\Documents\hackathon_command2\GameShop\GameShop\obj\Debug\GameShop.dll
 C:\Users\Роман\Documents\hackathon_command2\GameShop\GameShop\obj\Debug\GameShop.pdb
+C:\Users\Роман\Documents\hackathon_command2\GameShop\GameShop\obj\Debug\GameShop.csprojResolveAssemblyReference.cache
