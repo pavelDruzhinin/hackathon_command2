@@ -1,9 +1,9 @@
 ﻿@model GameShop.ViewModels.LoginViewModel
 
 @{
-    ViewBag.Title = "Вход в интернет-магазин";
+    ViewBag.Title = "Вход в GameShop";
 }
-<h2>Вход</h2>
+<h2>Вход в GameShop</h2>
 <form action="/Account/Login" method="POST">
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()

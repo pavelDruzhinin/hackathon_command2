@@ -4,6 +4,8 @@ using GameShop.Services;
 using GameShop.ViewModels;
 using GameShop.DataAccess;
 using GameShop.Models;
+using System.Linq;
+using System;
 
 namespace GameShop.Controllers
 {
@@ -58,15 +60,28 @@ namespace GameShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "Id,FirstName,LastName,Birthday,Login,Password")] Customer customer)
+        public ActionResult Register(Customer customer)
         {
-            if (ModelState.IsValid)
-            {
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Login");
+            if (db.Customers.Any(x => x.Login == customer.Login)) //если логин уже занят
+                {
+                    ViewData["loginErrorMessage"] = "Такой логин уже занят!";
+                    return View();  
+                }
+            else if (db.Customers.Any(x => x.Email == customer.Email)) //если Email занят
+                {
+                    ViewData["emailErrorMessage"] = "Пользователь с таким e-mail уже зарегистрирван";
+                    return View();
             }
-
+            else
+            { 
+                if (ModelState.IsValid)
+                    {               
+                        db.Customers.Add(customer);
+                        db.SaveChanges();
+                        return RedirectToAction("Login");
+                    }
+            }
+            
             return View();
         }
     }
