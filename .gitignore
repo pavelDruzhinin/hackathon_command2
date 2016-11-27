@@ -245,4 +245,4 @@ ModelManifest.xml
 .fake/
 
 # Назойливые файлы
-.vs/
+*.vs/
