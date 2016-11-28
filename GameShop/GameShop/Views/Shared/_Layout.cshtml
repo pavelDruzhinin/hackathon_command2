@@ -37,7 +37,7 @@
                             @Html.AntiForgeryToken()
                         }
                         <li>
-                            <a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+                            <a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a>
                         </li>
                     }
                     else

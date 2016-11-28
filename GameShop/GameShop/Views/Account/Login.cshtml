@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "Вход в GameShop";
 }
-<h2>Вход в GameShop</h2>
+
+<h2>@Html.DisplayText("registrationSucceed") Вход в GameShop</h2>
 <form action="/Account/Login" method="POST">
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()

@@ -21,6 +21,7 @@ namespace GameShop.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            ViewData["registrationSucceed"] = TempData["registrationSucceed"];
             return View();
         }
 
@@ -62,26 +63,23 @@ namespace GameShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Customer customer)
         {
-            if (db.Customers.Any(x => x.Login == customer.Login)) //если логин уже занят
-                {
-                    ViewData["loginErrorMessage"] = "Такой логин уже занят!";
-                    return View();  
-                }
-            else if (db.Customers.Any(x => x.Email == customer.Email)) //если Email занят
-                {
-                    ViewData["emailErrorMessage"] = "Пользователь с таким e-mail уже зарегистрирван";
-                    return View();
+            var loginExists = db.Customers.Any(x => x.Login == customer.Login);
+            var emailExists = db.Customers.Any(x => x.Email == customer.Email);
+            if (loginExists)
+            {
+                ViewData["loginExistsMessage"] = "Такой логин уже занят!";
             }
-            else
-            { 
-                if (ModelState.IsValid)
-                    {               
-                        db.Customers.Add(customer);
-                        db.SaveChanges();
-                        return RedirectToAction("Login");
-                    }
+            if (emailExists)
+            {
+                ViewData["emailExistsMessage"] = "Пользователь с таким e-mail уже зарегистрирован";
             }
-            
+            if ((loginExists == false) && (emailExists == false) && ModelState.IsValid)
+            {               
+                db.Customers.Add(customer);
+                db.SaveChanges();
+                TempData["registrationSucceed"] = "Регистрация успешна!";
+                return RedirectToAction("Login");
+            }
             return View();
         }
     }
