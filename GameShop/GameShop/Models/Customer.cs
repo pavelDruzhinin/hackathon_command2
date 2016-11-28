@@ -23,7 +23,7 @@ namespace GameShop.Models
         public List<Order> Orders { get; set; }     
                
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] //пришлось изменить формат даты, чтобы браузер не затирал дату рождения на странице редактирования профиля
         public DateTime Birthday { get; set; }
 
         [Required]

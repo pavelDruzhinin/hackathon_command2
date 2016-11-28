@@ -6,6 +6,8 @@ using GameShop.DataAccess;
 using GameShop.Models;
 using System.Linq;
 using System;
+using System.Data.Entity;
+using System.Net;
 
 namespace GameShop.Controllers
 {
@@ -81,6 +83,58 @@ namespace GameShop.Controllers
                 return RedirectToAction("Login");
             }
             return View();
+        }
+
+        //GET /Account/Profile
+        public new ActionResult Profile()
+        {
+            if (User.Identity.IsAuthenticated == false)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+            return View(customer);
+        }
+
+        //GET /Account/Edit
+        public ActionResult Edit()
+        {
+            if (User.Identity.IsAuthenticated == false)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+            return View(customer);
+        }
+
+        //POST /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+            return View(customer);
+        }
+
+        // GET: /Account/Delete
+        public ActionResult Delete()
+        {
+            if (User.Identity.IsAuthenticated == false)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+            return View(customer);
+        }
+
+        // POST: /Account/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed()
+        {
+            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+            db.Customers.Remove(customer);
+            db.SaveChanges();
+            return Logout();
         }
     }
 }

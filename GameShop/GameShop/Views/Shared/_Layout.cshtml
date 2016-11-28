@@ -32,13 +32,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        
                         using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
                         {
                             @Html.AntiForgeryToken()
                         }
-                        <li>
-                            <a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a>
-                        </li>
+                        <li>@Html.ActionLink("Личный кабинет", "Profile", "Account")</li>
+                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a></li>
                     }
                     else
                     {
