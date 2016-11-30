@@ -11,5 +11,6 @@ namespace GameShop.Models
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public List<OrderPosition> OrderPositions { get; set; }
+        public bool Current { get; set; }
     }
 }

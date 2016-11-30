@@ -18,6 +18,7 @@ namespace GameShop.DataAccess
     
         public GameShopContext() : base("name=GameShopContext")
         {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<GameShopContext>());
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
