@@ -135,6 +135,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="DataAccess\GameShopContext.cs" />
+    <Compile Include="DataAccess\GameShopInitializer.cs" />
     <Compile Include="DataAccess\Mapping\CategoryMap.cs" />
     <Compile Include="DataAccess\Mapping\CustomerMap.cs" />
     <Compile Include="DataAccess\Mapping\GameMap.cs" />
