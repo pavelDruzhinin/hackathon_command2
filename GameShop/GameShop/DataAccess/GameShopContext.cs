@@ -27,6 +27,7 @@ namespace GameShop.DataAccess
             modelBuilder.Configurations.Add(new GameMap());
             modelBuilder.Configurations.Add(new OrderMap());
             modelBuilder.Configurations.Add(new OrderPositionMap());
+            modelBuilder.Configurations.Add(new GameCommentMap());
         }
 
         public System.Data.Entity.DbSet<GameShop.Models.Game> Games { get; set; }
@@ -36,5 +37,9 @@ namespace GameShop.DataAccess
         public System.Data.Entity.DbSet<GameShop.Models.Order> Orders { get; set; }
 
         public System.Data.Entity.DbSet<GameShop.Models.Customer> Customers { get; set; }
+
+        public System.Data.Entity.DbSet<GameShop.Models.GameComment> GameComments { get; set; }
+
+        //  public System.Data.Entity.DbSet<GameShop.Models.GameComment> GameComments { get; set; }
     }
 }

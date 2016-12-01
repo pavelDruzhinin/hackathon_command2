@@ -23,7 +23,7 @@ namespace GameShop.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            ViewData["registrationSucceed"] = TempData["registrationSucceed"];
+            ViewData["registrationSuccess"] = TempData["registrationSuccess"];
             return View();
         }
 
@@ -79,7 +79,7 @@ namespace GameShop.Controllers
             {               
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                TempData["registrationSucceed"] = "Регистрация успешна!";
+                TempData["registrationSuccess"] = "Регистрация успешна!";
                 return RedirectToAction("Login");
             }
             return View();
@@ -108,6 +108,8 @@ namespace GameShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Customer customer)
         {
+            if (User.Identity.IsAuthenticated == false)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
@@ -131,6 +133,8 @@ namespace GameShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed()
         {
+            if (User.Identity.IsAuthenticated == false)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
             db.Customers.Remove(customer);
             db.SaveChanges();

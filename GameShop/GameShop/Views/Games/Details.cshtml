@@ -4,10 +4,9 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.Name</h2>
 
 <div>
-    <h4>Game</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -53,6 +52,33 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать Игру", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Каталог", "Index")
 </p>
+<hr/>
+@Html.ActionLink("Оставить свой отзыв", "Create", "GameComments", new { id = Model.Id }, null)
+<hr />
+<h4>
+    Отзывы:
+</h4>
+
+@{
+    foreach (var gameComment in Model.GameComments)
+    {
+        <div>
+            <p>@gameComment.Time пользователь <b>
+                @gameComment.Customer.FirstName
+                @gameComment.Customer.LastName</b>  оставил отзыв:
+            </p> 
+            <p>Оценка: @gameComment.Rating</p>
+            <p>@gameComment.Comment</p>
+            
+            @Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = gameComment.Id }, null) |
+            @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = gameComment.Id }, null)
+            
+            <hr />
+        </div>
+    }
+}
+
+

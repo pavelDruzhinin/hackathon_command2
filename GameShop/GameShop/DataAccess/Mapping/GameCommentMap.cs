@@ -7,14 +7,14 @@ using GameShop.Models;
 
 namespace GameShop.DataAccess.Mapping
 {
-    public class CustomerMap: EntityTypeConfiguration<Customer>
+    public class GameCommentMap : EntityTypeConfiguration<GameComment>
     {
-        public CustomerMap()
+        public GameCommentMap()
         {
-            ToTable("Customers");
+            ToTable("GameComments");
             HasKey(x => x.Id);
-            HasMany(x => x.Orders);
-            HasMany(x => x.GameComments);
+            HasRequired(x => x.Customer);
+            HasRequired(x => x.Game);
         }
     }
 }

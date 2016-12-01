@@ -131,12 +131,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="DataAccess\GameShopContext.cs" />
     <Compile Include="DataAccess\Mapping\CategoryMap.cs" />
     <Compile Include="DataAccess\Mapping\CustomerMap.cs" />
+    <Compile Include="DataAccess\Mapping\GameCommentMap.cs" />
     <Compile Include="DataAccess\Mapping\GameMap.cs" />
     <Compile Include="DataAccess\Mapping\OrderMap.cs" />
     <Compile Include="DataAccess\Mapping\OrderPositionMap.cs" />
@@ -151,10 +153,23 @@
     <Compile Include="Migrations\201611271033381_Migration1.Designer.cs">
       <DependentUpon>201611271033381_Migration1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611292040488_Migration2.cs" />
+    <Compile Include="Migrations\201611292040488_Migration2.Designer.cs">
+      <DependentUpon>201611292040488_Migration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611301139073_Migration3.cs" />
+    <Compile Include="Migrations\201611301139073_Migration3.Designer.cs">
+      <DependentUpon>201611301139073_Migration3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612011147587_Migr4.cs" />
+    <Compile Include="Migrations\201612011147587_Migr4.Designer.cs">
+      <DependentUpon>201612011147587_Migr4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\GameComment.cs" />
     <Compile Include="Models\OrderPosition.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +236,11 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\GameComments\Create.cshtml" />
+    <Content Include="Views\GameComments\Delete.cshtml" />
+    <Content Include="Views\GameComments\Details.cshtml" />
+    <Content Include="Views\GameComments\Index.cshtml" />
+    <Content Include="Views\GameComments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -239,6 +259,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611271033381_Migration1.resx">
       <DependentUpon>201611271033381_Migration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611292040488_Migration2.resx">
+      <DependentUpon>201611292040488_Migration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611301139073_Migration3.resx">
+      <DependentUpon>201611301139073_Migration3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612011147587_Migr4.resx">
+      <DependentUpon>201612011147587_Migr4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

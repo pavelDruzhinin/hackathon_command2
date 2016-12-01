@@ -29,14 +29,14 @@ namespace GameShop.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Game game = db.Games.Find(id);
+            Game game = db.Games.Include(o => o.GameComments).Include(x => x.GameComments.Select(c => c.Customer)).FirstOrDefault(g => g.Id == id);
             if (game == null)
             {
                 return HttpNotFound();
             }
             return View(game);
         }
-
+        
         // GET: Games/Create
         public ActionResult Create()
         {
@@ -49,7 +49,7 @@ namespace GameShop.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Key,CategoryId,Price,Description")] Game game)
+        public ActionResult Create(Game game)
         {
             if (ModelState.IsValid)
             {
@@ -120,7 +120,7 @@ namespace GameShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
