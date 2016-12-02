@@ -16,8 +16,9 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: Games
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
+            
             var games = db.Games.Include(g => g.Category);
             return View(games.ToList());
         }
@@ -36,7 +37,7 @@ namespace GameShop.Controllers
             }
             return View(game);
         }
-        
+
         // GET: Games/Create
         public ActionResult Create()
         {
@@ -120,7 +121,38 @@ namespace GameShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
+        public ActionResult AddToCart(int id)
+        {
+            var games = db.Games.FirstOrDefault(x => x.Id == id);
+            var currentOdrder = db.Orders.Include(x => x.OrderPositions).FirstOrDefault(x => x.Current && x.Customer.Login ==  User.Identity.Name);
+
+            if (currentOdrder == null)
+            {
+                currentOdrder = new Order
+                {
+                    Customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name),
+                    Current = true,
+                    OrderPositions = new List<OrderPosition>
+                    {
+                        new OrderPosition { Game = games }
+                    }
+                };
+
+                db.Orders.Add(currentOdrder);
+                db.SaveChanges();
+            }
+            else
+            {
+                var orderPosition = currentOdrder.OrderPositions.FirstOrDefault(x => x.Game == games);
+                if(orderPosition == null)
+                currentOdrder.OrderPositions.Add(new OrderPosition { Game = games });
+            }
+            db.SaveChanges();
+
+            return RedirectToAction("Cart", "Orders", new { id = currentOdrder.Id});
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

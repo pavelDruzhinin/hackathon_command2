@@ -26,7 +26,8 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Каталог", "Index", "Games")</li>
+                    <li>@Html.ActionLink("Список игр", "Index", "Games")</li>
+                    <li>@Html.ActionLink("Категории игр", "Index", "Categories")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
@@ -36,6 +37,7 @@
                         {
                             @Html.AntiForgeryToken()
                         }
+                        <li>@Html.ActionLink("Корзина", "Cart", "Orders")</li>
                         <li>@Html.ActionLink("Личный кабинет", "Profile", "Account")</li>
                         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a></li>
                     }

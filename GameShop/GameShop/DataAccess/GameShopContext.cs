@@ -40,6 +40,6 @@ namespace GameShop.DataAccess
 
         public System.Data.Entity.DbSet<GameShop.Models.GameComment> GameComments { get; set; }
 
-        //  public System.Data.Entity.DbSet<GameShop.Models.GameComment> GameComments { get; set; }
+        public DbSet<GameShop.Models.OrderPosition> OrderPositions { get; set; }
     }
 }

@@ -1,0 +1,30 @@
+﻿@model GameShop.Models.Order
+
+@{
+    ViewBag.Title = "Корзина покупателя";
+}
+
+<h2>Корзина</h2>
+@Html.ValidationSummary()
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Жанр</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderPosition in Model.OrderPositions)
+        {
+            <tr>
+                <td>@orderPosition.Game.Name</td>
+                <td>@orderPosition.Game.Category.Name</td>
+                <td>@(orderPosition.Game.Price)</td>
+                <td><button type="button" class="btn btn-default">@Html.ActionLink("Удалить", "Remove", "Orders", new { id = orderPosition.Id }, null)</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
