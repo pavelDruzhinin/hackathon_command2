@@ -72,12 +72,13 @@
             </p> 
             <p>Оценка: @gameComment.Rating</p>
             <p>@gameComment.Comment</p>
-            
-            @Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = gameComment.Id }, null) |
-            @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = gameComment.Id }, null)
-            
+            @if (gameComment.Customer.Login == User.Identity.Name)
+            {
+                <p>@Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = gameComment.Id }, null) |
+                @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = gameComment.Id }, null)</p>
+            }
             <hr />
-        </div>
+        </div>        
     }
 }
 

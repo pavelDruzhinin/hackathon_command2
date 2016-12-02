@@ -14,6 +14,7 @@ namespace GameShop.Models
         public int Rating { get; set; }
         [Required]
         [DataType(DataType.MultilineText)]
+        [StringLength(300)]
         public string Comment { get; set; }
         public DateTime Time { get; set; }
         public int CustomerId { get; set; }
