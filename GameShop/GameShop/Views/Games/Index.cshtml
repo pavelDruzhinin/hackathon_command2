@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<GameShop.Models.Game>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Список игр";
 }
 
 <style>
@@ -11,9 +11,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.form-search{
+
+}
 </style>
 
-<h2>Index</h2>
+<h2>Список игр</h2>
+
+<form method="get" action="/Games/Index">
+    <div class="form-inline form-group">
+        <input type="text" class="form-control" name="search" />
+        <input type="submit" class="btn btn-default" value="Найти" />
+    </div>
+</form>
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -24,19 +35,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
+            <b>Категории</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            <b>Название</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Rating)
+            <b>Рейтинг</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            <b>Цена</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            <b>Описание</b>
         </th>
         <th></th>
     </tr>
@@ -71,7 +82,7 @@
                 <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
                 <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
             }
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) |
             @Html.ActionLink("Добавить в корзину", "AddToCart", new { id = item.Id})
         </td>
     </tr>

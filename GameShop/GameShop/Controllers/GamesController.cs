@@ -18,8 +18,14 @@ namespace GameShop.Controllers
         // GET: Games
         public ActionResult Index(string search)
         {
-            
+
             var games = db.Games.Include(g => g.Category);
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                games = games.Where(x => x.Name.Contains(search));
+            }
+            
             return View(games.ToList());
         }
 
@@ -30,7 +36,7 @@ namespace GameShop.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Game game = db.Games.Include(o => o.GameComments).Include(x => x.GameComments.Select(c => c.Customer)).FirstOrDefault(g => g.Id == id);
+            Game game = db.Games.Include(o => o.GameComments).Include(x => x.GameComments.Select(c => c.Customer)).Include(c => c.Category).FirstOrDefault(g => g.Id == id);
             if (game == null)
             {
                 return HttpNotFound();
