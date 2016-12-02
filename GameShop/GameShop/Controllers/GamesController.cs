@@ -16,8 +16,9 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: Games
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
+            
             var games = db.Games.Include(g => g.Category);
             return View(games.ToList());
         }
@@ -149,7 +150,7 @@ namespace GameShop.Controllers
             }
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Cart", "Orders", new { id = currentOdrder.Id});
         }
 
         protected override void Dispose(bool disposing)

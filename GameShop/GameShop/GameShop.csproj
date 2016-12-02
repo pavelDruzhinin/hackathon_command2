@@ -135,7 +135,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="DataAccess\GameShopContext.cs" />
-    <Compile Include="DataAccess\GameShopInitializer.cs" />
     <Compile Include="DataAccess\Mapping\CategoryMap.cs" />
     <Compile Include="DataAccess\Mapping\CustomerMap.cs" />
     <Compile Include="DataAccess\Mapping\GameMap.cs" />
@@ -151,6 +150,10 @@
     <Compile Include="Migrations\201611271033381_Migration1.cs" />
     <Compile Include="Migrations\201611271033381_Migration1.Designer.cs">
       <DependentUpon>201611271033381_Migration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611302245556_roman.cs" />
+    <Compile Include="Migrations\201611302245556_roman.Designer.cs">
+      <DependentUpon>201611302245556_roman.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
@@ -222,6 +225,7 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Orders\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -240,6 +244,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611271033381_Migration1.resx">
       <DependentUpon>201611271033381_Migration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611302245556_roman.resx">
+      <DependentUpon>201611302245556_roman.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

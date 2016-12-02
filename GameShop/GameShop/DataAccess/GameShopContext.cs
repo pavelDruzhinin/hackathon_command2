@@ -36,5 +36,7 @@ namespace GameShop.DataAccess
         public System.Data.Entity.DbSet<GameShop.Models.Order> Orders { get; set; }
 
         public System.Data.Entity.DbSet<GameShop.Models.Customer> Customers { get; set; }
+
+        public DbSet<GameShop.Models.OrderPosition> OrderPositions { get; set; }
     }
 }

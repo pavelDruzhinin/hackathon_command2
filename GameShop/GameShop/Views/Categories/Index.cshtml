@@ -5,10 +5,13 @@
 }
 
 <h2>Index</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -23,9 +26,12 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
+                <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
+            }
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
         </td>
     </tr>
 }

@@ -121,6 +121,46 @@ namespace GameShop.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Cart()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+
+            var order = db.Orders.Include(x => x.OrderPositions).Include(x => x.OrderPositions.Select(g => g.Game).Select(c => c.Category)).FirstOrDefault(x => x.CustomerId == customer.Id && x.Current);
+
+            if (order == null)
+            {          
+                order = new Order
+                {
+                    Customer = customer,
+                    Current = true,
+                    OrderPositions = new List<OrderPosition>()
+                };
+                db.Orders.Add(order);
+                db.SaveChanges();          
+            }
+
+            return View(order);
+        }
+
+        public ActionResult Remove(int id)
+        {
+            var orderPosition = db.OrderPositions.FirstOrDefault(x => x.Id == id);
+
+            if (orderPosition == null)
+            {
+                return RedirectToAction("Cart");    
+            }
+
+            db.OrderPositions.Remove(orderPosition);
+            db.SaveChanges();
+            return RedirectToAction("Cart");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
