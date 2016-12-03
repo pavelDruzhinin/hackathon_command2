@@ -7,13 +7,13 @@ namespace GameShop.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Migr5 : IMigrationMetadata
+    public sealed partial class roma : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Migr5));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(roma));
         
         string IMigrationMetadata.Id
         {
-            get { return "201612021126458_Migr5"; }
+            get { return "201612031549301_roma"; }
         }
         
         string IMigrationMetadata.Source

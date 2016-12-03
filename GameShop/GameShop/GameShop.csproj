@@ -149,17 +149,9 @@
     <Compile Include="Migrations\201611271003253_InitialCreate.Designer.cs">
       <DependentUpon>201611271003253_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612011147587_Migr4.cs" />
-    <Compile Include="Migrations\201612011147587_Migr4.Designer.cs">
-      <DependentUpon>201612011147587_Migr4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612021126458_Migr5.cs" />
-    <Compile Include="Migrations\201612021126458_Migr5.Designer.cs">
-      <DependentUpon>201612021126458_Migr5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612021207043_Migr6.cs" />
-    <Compile Include="Migrations\201612021207043_Migr6.Designer.cs">
-      <DependentUpon>201612021207043_Migr6.cs</DependentUpon>
+    <Compile Include="Migrations\201612031549301_roma.cs" />
+    <Compile Include="Migrations\201612031549301_roma.Designer.cs">
+      <DependentUpon>201612031549301_roma.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
@@ -254,14 +246,8 @@
     <EmbeddedResource Include="Migrations\201611271003253_InitialCreate.resx">
       <DependentUpon>201611271003253_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612011147587_Migr4.resx">
-      <DependentUpon>201612011147587_Migr4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612021126458_Migr5.resx">
-      <DependentUpon>201612021126458_Migr5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612021207043_Migr6.resx">
-      <DependentUpon>201612021207043_Migr6.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612031549301_roma.resx">
+      <DependentUpon>201612031549301_roma.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
