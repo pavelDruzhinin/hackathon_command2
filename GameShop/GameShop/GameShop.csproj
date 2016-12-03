@@ -161,10 +161,6 @@
     <Compile Include="Migrations\201612021207043_Migr6.Designer.cs">
       <DependentUpon>201612021207043_Migr6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612022011128_Migr7.cs" />
-    <Compile Include="Migrations\201612022011128_Migr7.Designer.cs">
-      <DependentUpon>201612022011128_Migr7.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -266,9 +262,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612021207043_Migr6.resx">
       <DependentUpon>201612021207043_Migr6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612022011128_Migr7.resx">
-      <DependentUpon>201612022011128_Migr7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
