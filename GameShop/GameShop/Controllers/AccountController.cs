@@ -65,18 +65,28 @@ namespace GameShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Customer customer)
         {
-            var loginExists = db.Customers.Any(x => x.Login == customer.Login);
-            var emailExists = db.Customers.Any(x => x.Email == customer.Email);
-            if (loginExists)
+            if (db.Customers.FirstOrDefault() != null)
             {
-                ViewData["loginExistsMessage"] = "Такой логин уже занят!";
+                var loginExists = db.Customers.Any(x => x.Login == customer.Login);
+                var emailExists = db.Customers.Any(x => x.Email == customer.Email);
+                if (loginExists)
+                {
+                    ViewData["loginExistsMessage"] = "Такой логин уже занят!";
+                }
+                if (emailExists)
+                {
+                    ViewData["emailExistsMessage"] = "Пользователь с таким e-mail уже зарегистрирован";
+                }
+                if ((loginExists == false) && (emailExists == false) && ModelState.IsValid)
+                {
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+                    TempData["registrationSuccess"] = "Регистрация успешна!";
+                    return RedirectToAction("Login");
+                }
             }
-            if (emailExists)
+            else
             {
-                ViewData["emailExistsMessage"] = "Пользователь с таким e-mail уже зарегистрирован";
-            }
-            if ((loginExists == false) && (emailExists == false) && ModelState.IsValid)
-            {               
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 TempData["registrationSuccess"] = "Регистрация успешна!";
