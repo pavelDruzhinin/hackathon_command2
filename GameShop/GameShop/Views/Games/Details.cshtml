@@ -62,24 +62,64 @@
     Отзывы:
 </h4>
 
-@{
-    foreach (var gameComment in Model.GameComments)
+@{// ниже идет отображение отзывов
+    int commentsPerPage;
+    var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
+    if (Int32.TryParse(Request.Cookies["commentsPerPage"].Value, out commentsPerPage)) { } //сколько отзывов показывать на странице
+    else { commentsPerPage = 10; } //по умолчанию
+
+    <p>Отзывов на странице: 
+    @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
+    {
+        if (perPage == commentsPerPage)  { @perPage }
+        else { <a href="#" onClick="setCommentsPerPage(@perPage);">@perPage</a> }
+    }
+    </p>
+    <hr />
+    var commentsCount = Model.GameComments.Count;
+    var pagesCount = Convert.ToInt32(Math.Ceiling(commentsCount / (double)commentsPerPage));
+    int currentPage;
+    if (Int32.TryParse(Request.QueryString["page"], out currentPage)) //проверка номера страницы в URL
+    {
+        if (currentPage > pagesCount) { currentPage = pagesCount; }
+        else if (currentPage == 0) { currentPage = 1; }
+    }
+    else { currentPage = 1; } // если написали белиберду в URL ?page=
+    var startComment = commentsCount - commentsPerPage * (currentPage - 1) - 1;             // что-то я в этих двух строчках перемудрил но работает
+    for (var i = startComment; i >= Math.Max(startComment - (commentsPerPage - 1), 0); i--) //  (вывод комментов из базы в обратнм порядке)
     {
         <div>
-            <p>@gameComment.Time пользователь <b>
-                @gameComment.Customer.FirstName
-                @gameComment.Customer.LastName</b>  оставил отзыв:
-            </p> 
-            <p>Оценка: @gameComment.Rating</p>
-            <p>@gameComment.Comment</p>
-            @if (gameComment.Customer.Login == User.Identity.Name)
-            {
-                <p>@Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = gameComment.Id }, null) |
-                @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = gameComment.Id }, null)</p>
-            }
-            <hr />
-        </div>        
+            <p>
+                @Model.GameComments[i].Time пользователь <b>
+                @Model.GameComments[i].Customer.FirstName
+                @Model.GameComments[i].Customer.LastName
+            </b>  оставил отзыв:
+        </p>
+        <p>Оценка: @Model.GameComments[i].Rating</p>
+        <p>@Model.GameComments[i].Comment</p>
+        @if (Model.GameComments[i].Customer.Login == User.Identity.Name) //кнопки редактирования только авторам коммента
+        {
+            <p>@Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = Model.GameComments[i].Id }, null) |
+            @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = Model.GameComments[i].Id }, null) </p>
+        }
+        <hr />
+    </div>
     }
+    <p style="font-size: 20px">
+    @for (var i = 1; i <= pagesCount; i++) //выводим кнопки страниц
+    {
+        if (i != currentPage)  {  @Html.ActionLink(i.ToString(), "Details", new { page = i, id = Model.Id }) }
+        else  { @currentPage }  <span>  </span>
+    }
+</p>         
+        
 }
-
+<script>
+    function setCommentsPerPage(commentsPerPage) { 
+        var d = new Date();
+        d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000)); //кука живет 30 дней
+        document.cookie = "commentsPerPage=" + commentsPerPage + ";expires=" + d.toUTCString();
+        location.reload();
+    }
+</script>
 
