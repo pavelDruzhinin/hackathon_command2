@@ -65,9 +65,11 @@
 @{// ниже идет отображение отзывов
     int commentsPerPage;
     var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
-    if (Int32.TryParse(Request.Cookies["commentsPerPage"].Value, out commentsPerPage)) { } //сколько отзывов показывать на странице
-    else { commentsPerPage = 10; } //по умолчанию
-
+    if (Request.Cookies["commentsPerPage"] != null)
+    {
+        if (Int32.TryParse(Request.Cookies["commentsPerPage"].Value, out commentsPerPage)) { } //сколько отзывов показывать на странице
+        else { commentsPerPage = 10; } //по умолчанию
+    } else  { commentsPerPage = 10; } //по умолчанию
     <p>Отзывов на странице: 
     @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
     {
