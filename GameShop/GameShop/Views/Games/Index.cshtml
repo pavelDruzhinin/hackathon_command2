@@ -91,7 +91,7 @@
                 <div class="descript">@Html.DisplayFor(modelItem => item.Description)</div>
             </td>
             <td>
-                @if (User.Identity.IsAuthenticated)
+                @if (User.IsInRole("admin"))
                 {
                     <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
                     <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
