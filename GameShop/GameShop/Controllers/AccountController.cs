@@ -102,7 +102,8 @@ namespace GameShop.Controllers
         {
             if (User.Identity.IsAuthenticated == false)
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+
+            var customer = db.Customers.Include(x => x.PurchasedGames).FirstOrDefault(x => x.Login == User.Identity.Name);
             return View(customer);
         }
 

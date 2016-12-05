@@ -125,11 +125,9 @@ namespace GameShop.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
-
             var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
-
             var order = db.Orders.Include(x => x.OrderPositions).Include(x => x.OrderPositions.Select(g => g.Game).Select(c => c.Category)).FirstOrDefault(x => x.CustomerId == customer.Id && x.Current);
 
             if (order == null)
@@ -159,6 +157,32 @@ namespace GameShop.Controllers
             db.OrderPositions.Remove(orderPosition);
             db.SaveChanges();
             return RedirectToAction("Cart");
+        }
+
+        public ActionResult Pay()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+            var customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name);
+            var currentOrder = db.Orders.Include(o => o.OrderPositions.Select(op => op.Game)).FirstOrDefault(x => x.CustomerId == customer.Id && x.Current);
+            var rand = new Random();
+            foreach (var orderPosition in currentOrder.OrderPositions)
+            {
+                var purchasedGame = new PurchasedGame();
+                purchasedGame.Name = orderPosition.Game.Name;
+                purchasedGame.Price = orderPosition.Game.Price;
+                purchasedGame.GameId = orderPosition.Game.Id;
+                
+                purchasedGame.Key = rand.Next(1000, 9999).ToString() + '-' + rand.Next(1000, 9999).ToString() + '-' + rand.Next(1000, 9999).ToString();
+                purchasedGame.Time = DateTime.Now;
+                purchasedGame.CustomerId = customer.Id;
+                db.PurchasedGames.Add(purchasedGame);
+            }
+            currentOrder.Current = false;
+            db.SaveChanges();
+            return RedirectToAction("Profile", "Account");
         }
 
         protected override void Dispose(bool disposing)

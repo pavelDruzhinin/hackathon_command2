@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.Email)
         @Html.HiddenFor(model => model.Login)
-        @Html.HiddenFor(model => model.RoleId) @* Да, это очень плохо хранить здесь RoleId, пока Павел разрешил делать как умеем. *@
+        @Html.HiddenFor(model => model.RoleId) @* Да, это очень плохо хранить здесь RoleId, но Павел разрешил делать как умеем. *@
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })

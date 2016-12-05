@@ -26,14 +26,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Key)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Key)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
 
@@ -53,7 +45,8 @@
 </div>
 <p>
     @Html.ActionLink("Редактировать Игру", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Каталог", "Index")
+    @Html.ActionLink("Каталог", "Index") |
+    @Html.ActionLink("В корзину", "AddToCart", new { id = Model.Id })
 </p>
 <hr/>
 @Html.ActionLink("Оставить свой отзыв", "Create", "GameComments", new { id = Model.Id }, null)

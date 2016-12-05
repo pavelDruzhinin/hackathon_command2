@@ -146,6 +146,7 @@
     <Compile Include="DataAccess\Mapping\GameMap.cs" />
     <Compile Include="DataAccess\Mapping\OrderMap.cs" />
     <Compile Include="DataAccess\Mapping\OrderPositionMap.cs" />
+    <Compile Include="DataAccess\Mapping\PurchasedGameMap.cs" />
     <Compile Include="DataAccess\Mapping\RoleMap.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -161,6 +162,10 @@
     <Compile Include="Migrations\201612041402422_addRole.cs" />
     <Compile Include="Migrations\201612041402422_addRole.Designer.cs">
       <DependentUpon>201612041402422_addRole.cs</DependentUpon>
+      </Compile>
+    <Compile Include="Migrations\201612051436226_Ivan2.cs" />
+    <Compile Include="Migrations\201612051436226_Ivan2.Designer.cs">
+      <DependentUpon>201612051436226_Ivan2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
@@ -169,6 +174,7 @@
     <Compile Include="Models\GameComment.cs" />
     <Compile Include="Models\OrderPosition.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\PurchasedGame.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomRoleProvider.cs" />
@@ -262,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612041402422_addRole.resx">
       <DependentUpon>201612041402422_addRole.cs</DependentUpon>
+      </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612051436226_Ivan2.resx">
+      <DependentUpon>201612051436226_Ivan2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -30,20 +30,16 @@ namespace GameShop.DataAccess
             modelBuilder.Configurations.Add(new OrderPositionMap());
             modelBuilder.Configurations.Add(new GameCommentMap());
             modelBuilder.Configurations.Add(new RoleMap());
+            modelBuilder.Configurations.Add(new PurchasedGameMap());
         }
 
         public DbSet<Game> Games { get; set; }
-
         public DbSet<Category> Categories { get; set; }
-
         public DbSet<Order> Orders { get; set; }
-
         public DbSet<Customer> Customers { get; set; }
-
         public DbSet<GameComment> GameComments { get; set; }
-
         public DbSet<OrderPosition> OrderPositions { get; set; }
-
         public DbSet<Role> Roles { get; set; }
+        public DbSet<PurchasedGame> PurchasedGames { get; set; }
     }
 }

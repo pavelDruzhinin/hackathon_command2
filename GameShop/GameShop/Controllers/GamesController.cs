@@ -134,11 +134,11 @@ namespace GameShop.Controllers
         public ActionResult AddToCart(int id)
         {
             var games = db.Games.FirstOrDefault(x => x.Id == id);
-            var currentOdrder = db.Orders.Include(x => x.OrderPositions).FirstOrDefault(x => x.Current && x.Customer.Login ==  User.Identity.Name);
+            var currentOrder = db.Orders.Include(x => x.OrderPositions).FirstOrDefault(x => x.Current && x.Customer.Login ==  User.Identity.Name);
 
-            if (currentOdrder == null)
+            if (currentOrder == null)
             {
-                currentOdrder = new Order
+                currentOrder = new Order
                 {
                     Customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name),
                     Current = true,
@@ -148,18 +148,18 @@ namespace GameShop.Controllers
                     }
                 };
 
-                db.Orders.Add(currentOdrder);
+                db.Orders.Add(currentOrder);
                 db.SaveChanges();
             }
             else
             {
-                var orderPosition = currentOdrder.OrderPositions.FirstOrDefault(x => x.Game == games);
-                if(orderPosition == null)
-                currentOdrder.OrderPositions.Add(new OrderPosition { Game = games });
+                var orderPosition = currentOrder.OrderPositions.FirstOrDefault(x => x.Game == games);
+                if (orderPosition == null)
+                currentOrder.OrderPositions.Add(new OrderPosition { Game = games });
             }
             db.SaveChanges();
 
-            return RedirectToAction("Cart", "Orders", new { id = currentOdrder.Id});
+            return RedirectToAction("Cart", "Orders");
         }
 
         protected override void Dispose(bool disposing)
