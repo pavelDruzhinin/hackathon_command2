@@ -65,6 +65,7 @@ namespace GameShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Customer customer)
         {
+
             if (db.Customers.FirstOrDefault() != null)
             {
                 var loginExists = db.Customers.Any(x => x.Login == customer.Login);
@@ -79,6 +80,7 @@ namespace GameShop.Controllers
                 }
                 if ((loginExists == false) && (emailExists == false) && ModelState.IsValid)
                 {
+                    customer.RoleId = 3;
                     db.Customers.Add(customer);
                     db.SaveChanges();
                     TempData["registrationSuccess"] = "Регистрация успешна!";

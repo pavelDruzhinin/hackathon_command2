@@ -16,6 +16,9 @@ namespace GameShop.Models
         [Required]
         public string LastName { get; set; }
 
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

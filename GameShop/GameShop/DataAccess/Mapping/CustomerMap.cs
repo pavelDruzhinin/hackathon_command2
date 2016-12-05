@@ -15,6 +15,7 @@ namespace GameShop.DataAccess.Mapping
             HasKey(x => x.Id);
             HasMany(x => x.Orders);
             HasMany(x => x.GameComments);
+            HasRequired(x => x.Role);
         }
     }
 }
