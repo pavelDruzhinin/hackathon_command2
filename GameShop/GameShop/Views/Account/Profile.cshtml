@@ -1,5 +1,5 @@
 ﻿@model GameShop.Models.Customer
-
+   
 @{
     ViewBag.Title = "Личный кабинет";
 }
@@ -54,3 +54,39 @@
 <p>
     @Html.ActionLink("Редактировать мои данные", "Edit") | @Html.ActionLink("Удалить аккаунт", "Delete") 
 </p>
+<hr />
+    <h4>Ваши игры:</h4>
+    <table class="table">
+        <tr>
+            <th>
+                <b>Игра</b>
+            </th>
+            <th>
+                <b>Ключ</b>
+            </th>
+            <th>
+                <b>Цена</b>
+            </th>
+            <th>
+                <b>Дата и время покупки</b>
+            </th>
+            
+        </tr>
+            @foreach (var purchasedGame in Model.PurchasedGames)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(@purchasedGame.Name, "Details", "Games", new { id = purchasedGame.GameId }, null)
+                    </td>
+                    <td>@purchasedGame.Key</td>
+                    <td>
+                        @purchasedGame.Price  &#8381
+                    </td>
+                    <td>@purchasedGame.Time</td>
+                </tr>
+            }
+            </table>             
+
+
+
+

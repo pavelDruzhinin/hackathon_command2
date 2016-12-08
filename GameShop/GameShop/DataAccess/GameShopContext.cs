@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using GameShop.DataAccess.Mapping;
+using GameShop.Models;
 
 namespace GameShop.DataAccess
 {
@@ -28,18 +29,17 @@ namespace GameShop.DataAccess
             modelBuilder.Configurations.Add(new OrderMap());
             modelBuilder.Configurations.Add(new OrderPositionMap());
             modelBuilder.Configurations.Add(new GameCommentMap());
+            modelBuilder.Configurations.Add(new RoleMap());
+            modelBuilder.Configurations.Add(new PurchasedGameMap());
         }
 
-        public System.Data.Entity.DbSet<GameShop.Models.Game> Games { get; set; }
-
-        public System.Data.Entity.DbSet<GameShop.Models.Category> Categories { get; set; }
-
-        public System.Data.Entity.DbSet<GameShop.Models.Order> Orders { get; set; }
-
-        public System.Data.Entity.DbSet<GameShop.Models.Customer> Customers { get; set; }
-
-        public System.Data.Entity.DbSet<GameShop.Models.GameComment> GameComments { get; set; }
-
-        public DbSet<GameShop.Models.OrderPosition> OrderPositions { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<GameComment> GameComments { get; set; }
+        public DbSet<OrderPosition> OrderPositions { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<PurchasedGame> PurchasedGames { get; set; }
     }
 }

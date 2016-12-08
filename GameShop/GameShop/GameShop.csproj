@@ -66,6 +66,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Providers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.2.0.0\lib\net40\System.Web.Providers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -142,6 +146,8 @@
     <Compile Include="DataAccess\Mapping\GameMap.cs" />
     <Compile Include="DataAccess\Mapping\OrderMap.cs" />
     <Compile Include="DataAccess\Mapping\OrderPositionMap.cs" />
+    <Compile Include="DataAccess\Mapping\PurchasedGameMap.cs" />
+    <Compile Include="DataAccess\Mapping\RoleMap.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -161,6 +167,14 @@
     <Compile Include="Migrations\201612021207043_Migr6.Designer.cs">
       <DependentUpon>201612021207043_Migr6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612041402422_addRole.cs" />
+    <Compile Include="Migrations\201612041402422_addRole.Designer.cs">
+      <DependentUpon>201612041402422_addRole.cs</DependentUpon>
+      </Compile>
+    <Compile Include="Migrations\201612051436226_Ivan2.cs" />
+    <Compile Include="Migrations\201612051436226_Ivan2.Designer.cs">
+      <DependentUpon>201612051436226_Ivan2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -168,7 +182,10 @@
     <Compile Include="Models\GameComment.cs" />
     <Compile Include="Models\OrderPosition.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\PurchasedGame.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\CustomRoleProvider.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
   </ItemGroup>
@@ -262,6 +279,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612021207043_Migr6.resx">
       <DependentUpon>201612021207043_Migr6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612041402422_addRole.resx">
+      <DependentUpon>201612041402422_addRole.cs</DependentUpon>
+      </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612051436226_Ivan2.resx">
+      <DependentUpon>201612051436226_Ivan2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

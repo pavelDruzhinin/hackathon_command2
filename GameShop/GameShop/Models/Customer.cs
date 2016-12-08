@@ -16,12 +16,16 @@ namespace GameShop.Models
         [Required]
         public string LastName { get; set; }
 
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        public List<Order> Orders { get; set; }     
-               
+        public List<Order> Orders { get; set; }
+        public List<PurchasedGame> PurchasedGames { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] //пришлось изменить формат даты, чтобы браузер не затирал дату рождения на странице редактирования профиля
         public DateTime Birthday { get; set; }

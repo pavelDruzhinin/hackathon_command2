@@ -18,7 +18,7 @@ namespace GameShop.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            return View(db.Customers.Include(x => x.Role).ToList());
         }
 
         // GET: Customers/Details/5

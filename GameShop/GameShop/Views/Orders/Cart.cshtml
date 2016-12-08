@@ -12,6 +12,7 @@
             <th>Название</th>
             <th>Жанр</th>
             <th>Цена</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +25,31 @@
                 <td><button type="button" class="btn btn-default">@Html.ActionLink("Удалить", "Remove", "Orders", new { id = orderPosition.Id }, null)</button></td>
             </tr>
         }
+
     </tbody>
 </table>
+@if (Model.OrderPositions.Count > 0)
+{
+    <button type="button" class="btn btn-default" id="pay-btn" onclick="payment()">Оплатить</button>
+}
+<div id="forPayScreen"></div>
+<script>
+    function payment() {
+        var payScreen = document.createElement("DIV");
+        payScreen.style.cssText = "width: 100%; height:100%; position: fixed; background-color: rgba(255, 255, 255, 0.7); left: 0; top: 0";
+        payScreen.id = "payScreenDiv";
+        document.getElementById("forPayScreen").appendChild(payScreen);
+        var loadingImg = document.createElement("IMG");
+        loadingImg.src = "/images/loading-red-small.gif";
+        loadingImg.id = "loadingImg";
+        loadingImg.style.cssText = "position: absolute; top: 33%; left: 40%;";
+        document.getElementById("payScreenDiv").appendChild(loadingImg);
+    
+        setTimeout("paymentRecieved()", 5000);
+    }
+    function paymentRecieved() {
+        alert("Оплата прошла успешно! Вы будете перенаправлены в Ваш личный кабинет");
+        window.location.assign("/Orders/Pay");
+    }
 
-
+</script>
