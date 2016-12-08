@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Панель администратора";
+}
+
+<h2>Панель администратора</h2>
+<ul>
+    <li>@Html.ActionLink("Управление комментариями", "Index", "GameComments")</li>
+    <li>@Html.ActionLink("Управление пользователями", "Index", "Customers")</li>
+    <li>@Html.ActionLink("Корзины покупателей", "Index", "Orders")</li>
+    <li>@Html.ActionLink("Каталог игр", "Index", "Games")</li>
+</ul>

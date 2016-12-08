@@ -11,6 +11,7 @@ using GameShop.Models;
 
 namespace GameShop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CustomersController : Controller
     {
         private GameShopContext db = new GameShopContext();
@@ -51,6 +52,11 @@ namespace GameShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (customer.RoleId > 3 | customer.RoleId < 1)
+                {
+                    ViewData["RoleIdError"] = "Неверный RoleId";
+                    return View();
+                }
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,6 +89,12 @@ namespace GameShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (customer.RoleId > 3 | customer.RoleId < 1)
+                {
+                    ViewData["RoleIdError"] = "Неверный RoleId";
+                    return View();
+                }
+
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

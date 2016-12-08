@@ -1,10 +1,10 @@
 ﻿@model GameShop.Models.GameComment
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактировать";
 }
 
-<h2>Edit</h2>
+<h2>Редактировать</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>GameComment</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -38,7 +37,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" /> |
+                <input type="submit" value="Сохранить" class="btn btn-default" /> |
                 @Html.ActionLink("Вернуться к игре", "Details", "Games", new { id = Model.GameId }, null)
             </div>
         </div>

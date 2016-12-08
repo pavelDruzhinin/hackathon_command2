@@ -1,7 +1,7 @@
 ﻿@model GameShop.Models.Game
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = @Model.Name;
 }
 
 <h2>@Model.Name</h2>
@@ -46,7 +46,7 @@
 <p>
     @Html.ActionLink("Редактировать Игру", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Каталог", "Index") |
-    @Html.ActionLink("В корзину", "AddToCart", new { id = Model.Id })
+    @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = Model.Id }, null)
 </p>
 <hr/>
 @Html.ActionLink("Оставить свой отзыв", "Create", "GameComments", new { id = Model.Id }, null)
@@ -81,7 +81,7 @@
     }
     else { currentPage = 1; } // если написали белиберду в URL ?page=
     var startComment = commentsCount - commentsPerPage * (currentPage - 1) - 1;             // что-то я в этих двух строчках перемудрил но работает
-    for (var i = startComment; i >= Math.Max(startComment - (commentsPerPage - 1), 0); i--) //  (вывод комментов из базы в обратнм порядке)
+    for (var i = startComment; i >= Math.Max(startComment - (commentsPerPage - 1), 0); i--) //  (вывод комментов из базы в обратном порядке)
     {
         <div>
             <p>
@@ -92,7 +92,7 @@
         </p>
         <p>Оценка: @Model.GameComments[i].Rating</p>
         <p>@Model.GameComments[i].Comment</p>
-        @if (Model.GameComments[i].Customer.Login == User.Identity.Name) //кнопки редактирования только авторам коммента
+        @if (User.IsInRole("admin")) //кнопки редактирования/удаления комментов только админам
         {
             <p>@Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = Model.GameComments[i].Id }, null) |
             @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = Model.GameComments[i].Id }, null) </p>

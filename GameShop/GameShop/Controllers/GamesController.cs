@@ -56,6 +56,7 @@ namespace GameShop.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create(Game game)
         {
             if (ModelState.IsValid)
@@ -70,7 +71,6 @@ namespace GameShop.Controllers
         }
 
         // GET: Games/Edit/5
-
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
@@ -106,6 +106,7 @@ namespace GameShop.Controllers
         }
 
         // GET: Games/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -123,43 +124,13 @@ namespace GameShop.Controllers
         // POST: Games/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Game game = db.Games.Find(id);
             db.Games.Remove(game);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult AddToCart(int id)
-        {
-            var games = db.Games.FirstOrDefault(x => x.Id == id);
-            var currentOrder = db.Orders.Include(x => x.OrderPositions).FirstOrDefault(x => x.Current && x.Customer.Login ==  User.Identity.Name);
-
-            if (currentOrder == null)
-            {
-                currentOrder = new Order
-                {
-                    Customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name),
-                    Current = true,
-                    OrderPositions = new List<OrderPosition>
-                    {
-                        new OrderPosition { Game = games }
-                    }
-                };
-
-                db.Orders.Add(currentOrder);
-                db.SaveChanges();
-            }
-            else
-            {
-                var orderPosition = currentOrder.OrderPositions.FirstOrDefault(x => x.Game == games);
-                if (orderPosition == null)
-                currentOrder.OrderPositions.Add(new OrderPosition { Game = games });
-            }
-            db.SaveChanges();
-
-            return RedirectToAction("Cart", "Orders");
         }
 
         protected override void Dispose(bool disposing)

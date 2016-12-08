@@ -37,8 +37,12 @@
                         {
                             @Html.AntiForgeryToken()
                         }
-                        <li>@Html.ActionLink("Корзина", "Cart", "Orders")</li>
-                        <li>@Html.ActionLink("Личный кабинет", "Profile", "Account")</li>
+                            <li>@Html.ActionLink("Корзина", "Cart", "Orders", null, new { id = "cart-link" })</li>
+                            <li>@Html.ActionLink("Личный кабинет", "Profile", "Account")</li>
+                        if (User.IsInRole("admin"))
+                        {
+                            <li>@Html.ActionLink("Панель администратора", "Admin", "Account")</li>
+                        }
                         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a></li>
                     }
                     else
@@ -63,3 +67,25 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>// скрипт для показа количества игр в кнопке "Корзина"
+    window.onload = getGamesInCart();
+    function getGamesInCart() {
+        var gamesInCart = getCookie("gamesInCart");
+        var cart = document.getElementById("cart-link");
+        if (gamesInCart > 0 && cart != null) { cart.innerHTML = 'Корзина (' + gamesInCart + ')' };
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+</script>

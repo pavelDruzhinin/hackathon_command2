@@ -16,25 +16,11 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: GameComments
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             var gameComments = db.GameComments.Include(g => g.Customer).Include(g => g.Game);
             return View(gameComments.ToList());
-        }
-
-        // GET: GameComments/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            GameComment gameComment = db.GameComments.Find(id);
-            if (gameComment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(gameComment);
         }
 
         // GET: GameComments/Create
@@ -75,21 +61,14 @@ namespace GameShop.Controllers
         }
 
         // GET: GameComments/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
-            if (User.Identity.IsAuthenticated == false)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             GameComment gameComment = db.GameComments.Find(id);
-            if (gameComment.CustomerId != db.Customers.FirstOrDefault(c => c.Login == User.Identity.Name).Id) //если коммент чужой
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (gameComment == null)
-            {
                 return HttpNotFound();
-            }
             return View(gameComment);
         }
 
@@ -98,12 +77,9 @@ namespace GameShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(GameComment gameComment, int id)
         {
-            if (User.Identity.IsAuthenticated == false)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            if (gameComment.CustomerId != db.Customers.FirstOrDefault(c => c.Login == User.Identity.Name).Id) //если коммент чужой
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (ModelState.IsValid)
             {
                 db.Entry(gameComment).State = EntityState.Modified;
@@ -115,34 +91,24 @@ namespace GameShop.Controllers
         }
 
         // GET: GameComments/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
-            if (User.Identity.IsAuthenticated == false)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             GameComment gameComment = db.GameComments.Find(id);
-            if (gameComment.CustomerId != db.Customers.FirstOrDefault(c => c.Login == User.Identity.Name).Id) //если коммент чужой
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (gameComment == null)
-            {
                 return HttpNotFound();
-            }
             return View(gameComment);
         }
 
         // POST: GameComments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (User.Identity.IsAuthenticated == false)
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             GameComment gameComment = db.GameComments.Find(id);
-            if (gameComment.CustomerId != db.Customers.FirstOrDefault(c => c.Login == User.Identity.Name).Id) //если коммент чужой
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             db.GameComments.Remove(gameComment);
             UpdateRating(gameComment.GameId);
             db.SaveChanges();
@@ -152,15 +118,18 @@ namespace GameShop.Controllers
         public void UpdateRating(int id)
         {
             var game = db.Games.Include(o => o.GameComments).FirstOrDefault(x => x.Id == id);
-            int ratingSum = 0;
-            int ratingCount = 0;
-            foreach (var gameComment1 in game.GameComments)
+            if (game.GameComments != null)
             {
-                ratingSum += gameComment1.Rating;
-                ratingCount++;
+                int ratingSum = 0;
+                int ratingCount = 0;
+                foreach (var gameComment in game.GameComments)
+                {
+                    ratingSum += gameComment.Rating;
+                    ratingCount++;
+                }
+                game.Rating = ratingSum / ratingCount;
+                db.Entry(game).State = EntityState.Modified;
             }
-            game.Rating = Convert.ToInt32(ratingSum / ratingCount);
-            db.Entry(game).State = EntityState.Modified;
         }
 
         protected override void Dispose(bool disposing)

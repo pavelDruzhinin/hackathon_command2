@@ -1,13 +1,12 @@
 ﻿@model GameShop.Models.Customer
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Покупатель";
 }
 
-<h2>Details</h2>
+<h2>Покупатель</h2>
 
 <div>
-    <h4>Customer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -49,10 +48,16 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleId)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.RoleId)
+        </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>

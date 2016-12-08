@@ -162,7 +162,7 @@
     <Compile Include="Migrations\201612041402422_addRole.cs" />
     <Compile Include="Migrations\201612041402422_addRole.Designer.cs">
       <DependentUpon>201612041402422_addRole.cs</DependentUpon>
-      </Compile>
+    </Compile>
     <Compile Include="Migrations\201612051436226_Ivan2.cs" />
     <Compile Include="Migrations\201612051436226_Ivan2.Designer.cs">
       <DependentUpon>201612051436226_Ivan2.cs</DependentUpon>
@@ -222,10 +222,8 @@
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
     <Content Include="Views\Orders\Cart.cshtml" />
-    <Content Include="Views\Orders\Create.cshtml" />
     <Content Include="Views\Orders\Delete.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
-    <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
@@ -244,12 +242,13 @@
     <Content Include="Views\Account\Delete.cshtml" />
     <Content Include="Views\GameComments\Create.cshtml" />
     <Content Include="Views\GameComments\Delete.cshtml" />
-    <Content Include="Views\GameComments\Details.cshtml" />
     <Content Include="Views\GameComments\Index.cshtml" />
     <Content Include="Views\GameComments\Edit.cshtml" />
+    <Content Include="Views\Account\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -268,7 +267,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612041402422_addRole.resx">
       <DependentUpon>201612041402422_addRole.cs</DependentUpon>
-      </EmbeddedResource>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612051436226_Ivan2.resx">
       <DependentUpon>201612051436226_Ivan2.cs</DependentUpon>
     </EmbeddedResource>

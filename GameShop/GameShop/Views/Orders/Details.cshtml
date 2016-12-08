@@ -1,13 +1,12 @@
 ﻿@model GameShop.Models.Order
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Корзина покупателя";
 }
 
-<h2>Details</h2>
+<h2>Корзина покупателя @Html.DisplayFor(model => model.Customer.Login)</h2>
 
 <div>
-    <h4>Order</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,10 +16,62 @@
         <dd>
             @Html.DisplayFor(model => model.Customer.FirstName)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Birthday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Login)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Current)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Current)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
 
     </dl>
+    <h3>Игры в корзине:</h3>
+    <ul>
+        @foreach (var item in Model.OrderPositions)
+        {
+            <li>@Html.ActionLink(item.Game.Name, "Details", "Games", new { id = item.GameId }, null)
+            </li>
+        }
+    </ul>
+    <br />
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>

@@ -35,7 +35,22 @@ namespace GameShop.Controllers
             if (_accountService.Login(model.Login, model.Password))
             {
                 FormsAuthentication.SetAuthCookie(model.Login, true);
-                return RedirectToAction("Index", "Home");
+
+                //ниже пересчет игр в корзине и добавление в куки
+                var currentOrder = db.Orders.Include(x => x.OrderPositions).FirstOrDefault(x => x.Current && x.Customer.Login == model.Login);
+                var gamesInCartCookie = new System.Web.HttpCookie("gamesInCart");
+                if (currentOrder != null)
+                {
+                    gamesInCartCookie.Value = currentOrder.OrderPositions.Count.ToString();
+                }
+                else
+                {
+                    gamesInCartCookie.Value = "0";
+                }
+                    gamesInCartCookie.Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies.Add(gamesInCartCookie);
+                
+                return RedirectToAction("Index", "Games");
             }
 
             ModelState.AddModelError("", "Имя пользователя и пароль были введены неверно. Либо ваш пользователь не зарегистрирован.");
@@ -48,7 +63,7 @@ namespace GameShop.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Games");
         }
         private GameShopContext db = new GameShopContext();
 
@@ -152,6 +167,12 @@ namespace GameShop.Controllers
             db.Customers.Remove(customer);
             db.SaveChanges();
             return Logout();
+        }
+        // GET: /Account/Admin
+        [Authorize(Roles = "admin")]
+        public ActionResult Admin()
+        {
+            return View();
         }
     }
 }

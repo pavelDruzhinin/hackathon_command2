@@ -16,6 +16,7 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: Orders
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             var orders = db.Orders.Include(o => o.Customer);
@@ -23,79 +24,23 @@ namespace GameShop.Controllers
         }
 
         // GET: Orders/Details/5
+        [Authorize(Roles = "admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = db.Orders.Include(o => o.Customer).Include(o => o.OrderPositions.Select(op => op.Game)).FirstOrDefault(x => x.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
-        }
-
-        // GET: Orders/Create
-        public ActionResult Create()
-        {
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName");
-            return View();
-        }
-
-        // POST: Orders/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CustomerId")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Orders.Add(order);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
-            return View(order);
-        }
-
-        // GET: Orders/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
-            return View(order);
-        }
-
-        // POST: Orders/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CustomerId")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
             return View(order);
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -111,6 +56,7 @@ namespace GameShop.Controllers
         }
 
         // POST: Orders/Delete/5
+        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -145,6 +91,39 @@ namespace GameShop.Controllers
             return View(order);
         }
 
+        public ActionResult AddToCart(int id)
+        {
+            var games = db.Games.FirstOrDefault(x => x.Id == id);
+            var currentOrder = db.Orders.Include(x => x.OrderPositions).FirstOrDefault(x => x.Current && x.Customer.Login == User.Identity.Name);
+
+            if (currentOrder == null)
+            {
+                currentOrder = new Order
+                {
+                    Customer = db.Customers.FirstOrDefault(x => x.Login == User.Identity.Name),
+                    Current = true,
+                    OrderPositions = new List<OrderPosition>
+                    {
+                        new OrderPosition { Game = games }
+                    }
+                };
+
+                db.Orders.Add(currentOrder);
+                db.SaveChanges();
+            }
+            else
+            {
+                var orderPosition = currentOrder.OrderPositions.FirstOrDefault(x => x.Game == games);
+                if (orderPosition == null)
+                    currentOrder.OrderPositions.Add(new OrderPosition { Game = games });
+            }
+            db.SaveChanges();
+
+            setGamesInCart(currentOrder.OrderPositions.Count); // пересчет игр в корзине и добавление в куки
+
+            return RedirectToAction("Cart", "Orders");
+        }
+
         public ActionResult Remove(int id)
         {
             var orderPosition = db.OrderPositions.FirstOrDefault(x => x.Id == id);
@@ -156,6 +135,9 @@ namespace GameShop.Controllers
 
             db.OrderPositions.Remove(orderPosition);
             db.SaveChanges();
+
+            setGamesInCart(db.OrderPositions.Where(o => o.OrderId == orderPosition.OrderId).Count());// пересчет игр в корзине и добавление в куки
+
             return RedirectToAction("Cart");
         }
 
@@ -182,8 +164,20 @@ namespace GameShop.Controllers
             }
             currentOrder.Current = false;
             db.SaveChanges();
+
+            setGamesInCart(0); // обнуление количества игр в корзине в куки
+
             return RedirectToAction("Profile", "Account");
         }
+
+        public void setGamesInCart(int gamesInCart)
+        {
+            var gamesInCartCookie = new HttpCookie("gamesInCart");
+            gamesInCartCookie.Value = gamesInCart.ToString();
+            gamesInCartCookie.Expires = DateTime.Now.AddDays(30);
+            Response.Cookies.Add(gamesInCartCookie);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

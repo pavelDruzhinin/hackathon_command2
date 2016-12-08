@@ -96,7 +96,7 @@
                     <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
                     <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
                 }
-                @Html.ActionLink("Добавить в корзину", "AddToCart", new { id = item.Id })
+                @Html.ActionLink("Добавить в корзину", "AddToCart", "Orders", new { id = item.Id }, null)
             </td>
         </tr>
     }
@@ -152,7 +152,7 @@
                 <p>@Model.ElementAt(i).Description</p>
                 <p>
                     <h4>@Model.ElementAt(i).Price &#8381
-                    @Html.ActionLink("В корзину", "AddToCart", new { id = Model.ElementAt(i).Id })</h4>
+                    @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = Model.ElementAt(i).Id }, null)</h4>
                     </p>
             </div>
         }
