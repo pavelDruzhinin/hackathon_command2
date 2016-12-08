@@ -12,17 +12,30 @@
     text-overflow: ellipsis;
 }
 
-.form-search{
-
-}
 </style>
+
+<script>
+    function priceValue(){
+        var price = document.getElementById("price").innerHTML = document.getElementById("price-filter").value;
+    }
+</script>
 
 <h2>Список игр</h2>
 
 <form method="get" action="/Games/Index">
-    <div class="form-inline form-group">
-        <input type="text" class="form-control" name="search" />
-        <input type="submit" class="btn btn-default" value="Найти" />
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="search" />
+        </div>
+        <div class="col-md-1">
+            <input type="submit" class="btn btn-default" value="Найти" />
+        </div>
+        <div class="col-md-3">
+            <input type="range" min="0" max="100000" oninput="priceValue()" id="price-filter" name="searchPrice" /> 
+            <p id="price">0</p>
+        </div>
+    </div>
+    <div>
     </div>
 </form>
 
@@ -52,40 +65,117 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name)
-        </td>
-        <td>
-            @Html.ActionLink(item.Name, "Details", new { id = item.Id })
-        </td>
-        <td>
-            @for (var i = 0; i < item.Rating ;i++)
-            {
-                @Html.Raw("&#9733");
-            }@for (var i = item.Rating; i < 10; i++)
-            {
-                @Html.Raw("&#9734");
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Description, new { @class = "p" })*@
-            <div class="descript">@Html.DisplayFor(modelItem => item.Description)</div>
-        </td>
-        <td>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
-                <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
-            }
-            @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Добавить в корзину", "AddToCart", new { id = item.Id})
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.ActionLink(item.Name, "Details", new { id = item.Id }) 
+            </td>
+            <td>
+                @for (var i = 0; i < item.Rating; i++)
+                {
+                    @Html.Raw("&#9733");
+                }@for (var i = item.Rating; i < 10; i++)
+    {
+                    @Html.Raw("&#9734");
+    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Description, new { @class = "p" })*@
+                <div class="descript">@Html.DisplayFor(modelItem => item.Description)</div>
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
+                    <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
+                }
+                @Html.ActionLink("Добавить в корзину", "AddToCart", new { id = item.Id })
+            </td>
+        </tr>
+    }
 </table>
+ПАДЖИНАЦИЯ ПРИМЕНЯЕТСЯ ТОЛЬКО К ТОМУ ЧТО ВНИЗУ, ВЕРХ ПОКА ОСТАВИЛ НО ПОЗЖЕ МОЖНО УДАЛИТЬ<br />
+ДЕСКРИПШН, ЗДЕСЬ ИМХО БУДЕТ ЛИШНИМ
+    @{// ниже отображение игр для покупателя
+        int gamesPerPage;
+        var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
+        if (Request.Cookies["gamesPerPage"] != null)
+        {
+            if (Int32.TryParse(Request.Cookies["gamesPerPage"].Value, out gamesPerPage)) { } //сколько игр показывать на странице
+            else { gamesPerPage = 10; } //по умолчанию
+        }
+        else { gamesPerPage = 10; } //по умолчанию
+        <hr />
+    <p>
+            Показывать на странице:
+            @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
+            {
+                if (perPage == gamesPerPage)
+                { @perPage }
+                else
+                { <a href="#" onClick="setGamesPerPage(@perPage);">@perPage</a> }
+            }
+        </p>
+       
+        var gamesCount = Model.Count();
+        var pagesCount = Convert.ToInt32(Math.Ceiling(gamesCount / (double)gamesPerPage));
+        int currentPage;
+        if (Int32.TryParse(Request.QueryString["page"], out currentPage)) //проверка номера страницы в URL
+        {
+            if (currentPage > pagesCount) { currentPage = pagesCount; }
+            else if (currentPage == 0) { currentPage = 1; }
+        }
+        else { currentPage = 1; } // если написали белиберду в URL ?page=
+        var startComment = currentPage * gamesPerPage - gamesPerPage;
+          for (var i = startComment; i < Math.Min(currentPage * gamesPerPage, gamesCount); i++)
+            {
+            <div style="width: 200px; height: 350px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
+                <div style="width: 180px; height:180px;background-color: grey;">картинка</div>
+                    
+                    <h4>@Html.ActionLink(Model.ElementAt(i).Name, "Details", new { id = Model.ElementAt(i).Id })</h4>
+                    <h5>@Model.ElementAt(i).Category.Name</h5>
+                    @for (var j = 0; j < Model.ElementAt(i).Rating; j++)//показ звездочек рейтинга
+                {
+                        @Html.Raw("&#9733");
+                }@for (var j = Model.ElementAt(i).Rating; j < 10; j++)
+                {
+                    @Html.Raw("&#9734");
+                } 
+                
+                <p>@Model.ElementAt(i).Description</p>
+                <p>
+                    <h4>@Model.ElementAt(i).Price &#8381
+                    @Html.ActionLink("В корзину", "AddToCart", new { id = Model.ElementAt(i).Id })</h4>
+                    </p>
+            </div>
+        }
+        <div style="clear:left; text-align: center;">
+            <p style="font-size: 20px">
+                @for (var i = 1; i <= pagesCount; i++) //выводим кнопки страниц
+            {
+                if (i != currentPage)
+                {  @Html.ActionLink(i.ToString(), "Index", new { page = i })}
+                else
+                { @currentPage }  <span>  </span>
+                }
+            </p>
+        </div>
+
+    }
+<script>
+    function setGamesPerPage(gamesPerPage) {
+        var d = new Date();
+        d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000)); //кука живет 30 дней
+        document.cookie = "gamesPerPage=" + gamesPerPage + ";expires=" + d.toUTCString();
+        location.reload();
+    }
+</script>
+
+
