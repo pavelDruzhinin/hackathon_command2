@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<GameShop.Models.PurchasedGame>
+
 @{
     ViewBag.Title = "Панель администратора";
 }
@@ -10,3 +11,30 @@
     <li>@Html.ActionLink("Корзины покупателей", "Index", "Orders")</li>
     <li>@Html.ActionLink("Каталог игр", "Index", "Games")</li>
 </ul>
+
+<table class="table">
+    <caption style="text-align: left"><h4>Последние 10 продаж</h4></caption>
+    <tr>
+        <th>
+            <b>Игра</b>
+        </th>
+        <th>
+            <b>Цена</b>
+        </th>
+        <th>
+            <b>Покупатель</b>
+        </th>
+        <th>
+            <b>Дата и время покупки</b>
+        </th>
+        </tr>
+    @for (var i = 0; i < Math.Min(10, Model.Count()); i++ )
+    {
+    <tr>
+        <td>@Html.ActionLink(Model.ElementAt(i).Name, "Details", "Games", new { id = Model.ElementAt(i).GameId }, null)</td>
+        <td>@Model.ElementAt(i).Price &#8381</td>
+        <td>@Model.ElementAt(i).Customer.Login</td>
+        <td>@Model.ElementAt(i).Time</td>
+    </tr>
+    }
+    </table>

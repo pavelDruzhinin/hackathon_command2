@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GameShop.Models.Customer>
+﻿@model PagedList.IPagedList<GameShop.Models.Customer>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Пользователи";
@@ -12,22 +13,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            <b>Имя</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            <b>Фамилия</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Birthday)
+            <b>Дата рождения</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Login)
+            <b>Логин</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            <b>Email</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Role)
+            <b>Role</b>
         </th>
     </tr>
 
@@ -60,3 +61,6 @@
 }
 
 </table>
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

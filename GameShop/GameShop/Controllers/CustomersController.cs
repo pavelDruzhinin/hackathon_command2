@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameShop.DataAccess;
 using GameShop.Models;
+using PagedList;
 
 namespace GameShop.Controllers
 {
@@ -17,9 +18,10 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: Customers
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Customers.Include(x => x.Role).ToList());
+            int pageNumber = (page ?? 1);
+            return View(db.Customers.Include(x => x.Role).ToList().ToPagedList(pageNumber, 10));
         }
 
         // GET: Customers/Details/5

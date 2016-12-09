@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameShop.DataAccess;
 using GameShop.Models;
+using PagedList;
 
 namespace GameShop.Controllers
 {
@@ -16,7 +17,7 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: Games
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, int? page)
         {
 
             var games = db.Games.Include(g => g.Category);
@@ -25,8 +26,16 @@ namespace GameShop.Controllers
             {
                 games = games.Where(x => x.Name.Contains(search));
             }
-            
-            return View(games.ToList());
+            int pageNumber = (page ?? 1);
+            int gamesPerPage;
+            if (Request.Cookies["gamesPerPage"] != null)
+            {
+                if (Int32.TryParse(Request.Cookies["gamesPerPage"].Value, out gamesPerPage)) { } //сколько отзывов показывать на странице
+                else { gamesPerPage = 10; } //по умолчанию
+            }
+            else { gamesPerPage = 10; } //по умолчанию
+            ViewBag.gamesPerPage = gamesPerPage;
+            return View(games.ToList().ToPagedList(pageNumber, gamesPerPage));
         }
 
         // GET: Games/Details/5

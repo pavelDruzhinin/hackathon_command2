@@ -1,5 +1,5 @@
-﻿@model IEnumerable<GameShop.Models.Order>
-
+﻿@model PagedList.IPagedList<GameShop.Models.Order>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Корзины покупателей";
 }
@@ -9,20 +9,18 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.Login)
+            <b>Login</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Id)
+            <b>Id</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Current)
+            <b>Current</b>
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    if (item.Current)
-    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Customer.Login)
@@ -38,7 +36,9 @@
             @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
         </td>
     </tr>
-    }
 }
 
 </table>
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

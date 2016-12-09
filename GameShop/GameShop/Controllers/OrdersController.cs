@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameShop.DataAccess;
 using GameShop.Models;
+using PagedList;
 
 namespace GameShop.Controllers
 {
@@ -17,10 +18,11 @@ namespace GameShop.Controllers
 
         // GET: Orders
         [Authorize(Roles = "admin")]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var orders = db.Orders.Include(o => o.Customer);
-            return View(orders.ToList());
+            int pageNumber = (page ?? 1);
+            var orders = db.Orders.Include(o => o.Customer).Where(c => c.Current == true);
+            return View(orders.ToList().ToPagedList(pageNumber, 10));
         }
 
         // GET: Orders/Details/5

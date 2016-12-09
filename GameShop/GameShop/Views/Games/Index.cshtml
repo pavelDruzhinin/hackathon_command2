@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GameShop.Models.Game>
+﻿@model PagedList.IPagedList<GameShop.Models.Game>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Список игр";
@@ -101,74 +102,48 @@
         </tr>
     }
 </table>
-ПАДЖИНАЦИЯ ПРИМЕНЯЕТСЯ ТОЛЬКО К ТОМУ ЧТО ВНИЗУ, ВЕРХ ПОКА ОСТАВИЛ НО ПОЗЖЕ МОЖНО УДАЛИТЬ<br />
-ДЕСКРИПШН, ЗДЕСЬ ИМХО БУДЕТ ЛИШНИМ
-    @{// ниже отображение игр для покупателя
-        int gamesPerPage;
-        var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
-        if (Request.Cookies["gamesPerPage"] != null)
-        {
-            if (Int32.TryParse(Request.Cookies["gamesPerPage"].Value, out gamesPerPage)) { } //сколько игр показывать на странице
-            else { gamesPerPage = 10; } //по умолчанию
-        }
-        else { gamesPerPage = 10; } //по умолчанию
-        <hr />
-    <p>
-            Показывать на странице:
-            @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
-            {
-                if (perPage == gamesPerPage)
-                { @perPage }
-                else
-                { <a href="#" onClick="setGamesPerPage(@perPage);">@perPage</a> }
-            }
-        </p>
-       
-        var gamesCount = Model.Count();
-        var pagesCount = Convert.ToInt32(Math.Ceiling(gamesCount / (double)gamesPerPage));
-        int currentPage;
-        if (Int32.TryParse(Request.QueryString["page"], out currentPage)) //проверка номера страницы в URL
-        {
-            if (currentPage > pagesCount) { currentPage = pagesCount; }
-            else if (currentPage == 0) { currentPage = 1; }
-        }
-        else { currentPage = 1; } // если написали белиберду в URL ?page=
-        var startComment = currentPage * gamesPerPage - gamesPerPage;
-          for (var i = startComment; i < Math.Min(currentPage * gamesPerPage, gamesCount); i++)
-            {
+@{ 
+    int gamesPerPage = ViewBag.gamesPerPage;
+    var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
+<p>
+    Игр на странице:
+    @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
+    {
+        if (perPage == gamesPerPage)
+        { @perPage }
+        else
+        { <a href="#" onClick="setGamesPerPage(@perPage);">@perPage</a> }
+    }
+</p>
+<hr />
+    foreach (var item in Model)
+    {
             <div style="width: 200px; height: 350px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
                 <div style="width: 180px; height:180px;background-color: grey;">картинка</div>
                     
-                    <h4>@Html.ActionLink(Model.ElementAt(i).Name, "Details", new { id = Model.ElementAt(i).Id })</h4>
-                    <h5>@Model.ElementAt(i).Category.Name</h5>
-                    @for (var j = 0; j < Model.ElementAt(i).Rating; j++)//показ звездочек рейтинга
-                {
+                    <h4>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h4>
+                    <h5>@item.Category.Name</h5>
+                    @for (var j = 0; j < item.Rating; j++)//показ звездочек рейтинга
+                    {
                         @Html.Raw("&#9733");
-                }@for (var j = Model.ElementAt(i).Rating; j < 10; j++)
-                {
+                    }@for (var j = item.Rating; j < 10; j++)
+            {
                     @Html.Raw("&#9734");
-                } 
+            } 
                 
-                <p>@Model.ElementAt(i).Description</p>
+                <p>@item.Description</p>
                 <p>
-                    <h4>@Model.ElementAt(i).Price &#8381
-                    @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = Model.ElementAt(i).Id }, null)</h4>
+                    <h4>@item.Price &#8381
+                    @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, null)</h4>
                     </p>
             </div>
         }
-        <div style="clear:left; text-align: center;">
-            <p style="font-size: 20px">
-                @for (var i = 1; i <= pagesCount; i++) //выводим кнопки страниц
-            {
-                if (i != currentPage)
-                {  @Html.ActionLink(i.ToString(), "Index", new { page = i })}
-                else
-                { @currentPage }  <span>  </span>
-                }
-            </p>
-        </div>
-
     }
+<div style="clear: left">
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
 <script>
     function setGamesPerPage(gamesPerPage) {
         var d = new Date();

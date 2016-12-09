@@ -172,7 +172,7 @@ namespace GameShop.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Admin()
         {
-            return View();
+            return View(db.PurchasedGames.Include(p => p.Customer).OrderByDescending(x => x.Time).ToList());
         }
     }
 }

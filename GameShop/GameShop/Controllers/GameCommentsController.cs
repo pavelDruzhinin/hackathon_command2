@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameShop.DataAccess;
 using GameShop.Models;
+using PagedList;
 
 namespace GameShop.Controllers
 {
@@ -17,10 +18,11 @@ namespace GameShop.Controllers
 
         // GET: GameComments
         [Authorize(Roles = "admin")]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var gameComments = db.GameComments.Include(g => g.Customer).Include(g => g.Game);
-            return View(gameComments.ToList());
+            int pageNumber = (page ?? 1);
+            return View(gameComments.ToList().ToPagedList(pageNumber, 10));
         }
 
         // GET: GameComments/Create

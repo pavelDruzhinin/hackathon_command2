@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GameShop.Models.GameComment>
+﻿@model PagedList.IPagedList<GameShop.Models.GameComment>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Отзывы покупателей";
@@ -9,64 +10,41 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.Login)
+            <b>Покупатель</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Game)
+            <b>Игра</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Rating)
+            <b>Оценка</b>        
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Comment)
+            <b>Комментарий</b>
         </th>
         <th></th>
     </tr>
-    @{
-        var commentsCount = Model.Count();
-        var commentsPerPage = 10; // установка количества комментов на странице
-        var pagesCount = Convert.ToInt32(Math.Ceiling(commentsCount / (double)commentsPerPage));
-        int currentPage;
-        if (Int32.TryParse(Request.QueryString["page"], out currentPage)) //проверка номера страницы в URL
-        {
-            if (currentPage > pagesCount) { currentPage = pagesCount; }
-            else if (currentPage == 0) { currentPage = 1; }
-        }
-        else { currentPage = 1; } // если написали белиберду в URL ?page=
-        var startComment = currentPage * commentsPerPage - commentsPerPage;
-        for (var i = startComment; i < Math.Min(commentsCount, currentPage * commentsPerPage); i++)
-        {
+    @foreach (var item in Model)
+    { 
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.ElementAt(i).Customer.Login)
+                    @Html.DisplayFor(modelItem => item.Customer.Login)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.ElementAt(i).Game.Name)
+                    @Html.DisplayFor(modelItem => item.Game.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.ElementAt(i).Rating)
+                    @Html.DisplayFor(modelItem => item.Rating)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.ElementAt(i).Comment)
+                    @Html.DisplayFor(modelItem => item.Comment)
                 </td>
                 <td>
-                    @Html.ActionLink("Редактировать", "Edit", new { id = Model.ElementAt(i).Id }) |
-                    @Html.ActionLink("Удалить", "Delete", new { id = Model.ElementAt(i).Id })
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
-        <tr>
-            <td colspan="5">
-             <p style="font-size: 20px">
-             @for (var i = 1; i <= pagesCount; i++) //выводим кнопки страниц
-             {
-                if (i != currentPage)
-                { @Html.ActionLink(i.ToString(), "Index", new { page = i })}
-                else
-                { @currentPage }  <span>  </span>
-             }
-            </p>
-            </td>
-        </tr>
-    }
 </table>
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
