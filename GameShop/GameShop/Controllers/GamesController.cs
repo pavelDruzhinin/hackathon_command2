@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GameShop.DataAccess;
 using GameShop.Models;
 using PagedList;
+using System.IO;
 
 namespace GameShop.Controllers
 {
@@ -72,12 +73,18 @@ namespace GameShop.Controllers
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Create(Game game)
+        public ActionResult Create(Game game, HttpPostedFileBase gamePoster)
         {
             if (ModelState.IsValid)
             {
+                if (gamePoster != null && gamePoster.ContentLength > 0)
+                {
+                    string path = Server.MapPath("~/images/games/");  
+                    string pic = Path.GetFileName(gamePoster.FileName);
+                    gamePoster.SaveAs(Path.Combine(path, pic));
+                }
                 db.Games.Add(game);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -9,6 +9,7 @@
     
 .descript{ 
     width: 200px;
+    height: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -44,7 +45,7 @@
         <div class="col-xs-7">
             @foreach (var item in Model)
             {
-                <div style="width: 200px; height: 350px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
+                <div style="width: 220px; height: 400px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
                     <div style="width: 180px; height:180px;background-color: grey;">картинка</div>
 
                     <h4>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h4>
@@ -57,11 +58,12 @@
                         @Html.Raw("&#9734");
                 }
 
-                    <p>@item.Description</p>
+                    <p class="descript">@item.Description</p>
                     <p>
                         <h4>
                             @item.Price &#8381
                         @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, null)
+
                             @if (User.IsInRole("admin"))
                             {
                                 <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
