@@ -17,15 +17,23 @@ namespace GameShop.Controllers
         private GameShopContext db = new GameShopContext();
 
         // GET: Games
-        public ActionResult Index(string search, int? page)
+        public ActionResult Index(string search, int? categoryList, bool? Fcategory, int? page)
         {
 
             var games = db.Games.Include(g => g.Category);
+
+            ViewBag.CategoryList = new SelectList(db.Categories, "Id", "Name");
 
             if (!string.IsNullOrWhiteSpace(search))
             {
                 games = games.Where(x => x.Name.Contains(search));
             }
+
+            if (Fcategory == true)
+            {
+                games = games.Where(x => x.CategoryId == categoryList);
+            }
+
             int pageNumber = (page ?? 1);
             int gamesPerPage;
             if (Request.Cookies["gamesPerPage"] != null)

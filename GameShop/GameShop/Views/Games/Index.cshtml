@@ -14,31 +14,10 @@
 }
 
 </style>
-
-<script>
-    function priceValue(){
-        var price = document.getElementById("price").innerHTML = document.getElementById("price-filter").value;
-    }
-</script>
-
+                                                                                                            
 <h2>Список игр</h2>
 
-<form method="get" action="/Games/Index">
-    <div class="row">
-        <div class="col-md-3">
-            <input type="text" class="form-control" name="search" />
-        </div>
-        <div class="col-md-1">
-            <input type="submit" class="btn btn-default" value="Найти" />
-        </div>
-        <div class="col-md-3">
-            <input type="range" min="0" max="100000" oninput="priceValue()" id="price-filter" name="searchPrice" /> 
-            <p id="price">0</p>
-        </div>
-    </div>
-    <div>
-    </div>
-</form>
+
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -46,62 +25,7 @@
         @Html.ActionLink("Create New", "Create")
     </p>
 }
-<table class="table">
-    <tr>
-        <th>
-            <b>Категории</b>
-        </th>
-        <th>
-            <b>Название</b>
-        </th>
-        <th>
-            <b>Рейтинг</b>
-        </th>
-        <th>
-            <b>Цена</b>
-        </th>
-        <th>
-            <b>Описание</b>
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.ActionLink(item.Name, "Details", new { id = item.Id }) 
-            </td>
-            <td>
-                @for (var i = 0; i < item.Rating; i++)
-                {
-                    @Html.Raw("&#9733");
-                }@for (var i = item.Rating; i < 10; i++)
-    {
-                    @Html.Raw("&#9734");
-    }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Description, new { @class = "p" })*@
-                <div class="descript">@Html.DisplayFor(modelItem => item.Description)</div>
-            </td>
-            <td>
-                @if (User.IsInRole("admin"))
-                {
-                    <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
-                    <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
-                }
-                @Html.ActionLink("Добавить в корзину", "AddToCart", "Orders", new { id = item.Id }, null)
-            </td>
-        </tr>
-    }
-</table>
 @{ 
     int gamesPerPage = ViewBag.gamesPerPage;
     var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
@@ -116,29 +40,56 @@
     }
 </p>
 <hr />
-    foreach (var item in Model)
-    {
-            <div style="width: 200px; height: 350px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
-                <div style="width: 180px; height:180px;background-color: grey;">картинка</div>
-                    
+    <div class="row">
+        <div class="col-xs-7">
+            @foreach (var item in Model)
+            {
+                <div style="width: 200px; height: 350px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
+                    <div style="width: 180px; height:180px;background-color: grey;">картинка</div>
+
                     <h4>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h4>
                     <h5>@item.Category.Name</h5>
                     @for (var j = 0; j < item.Rating; j++)//показ звездочек рейтинга
                     {
                         @Html.Raw("&#9733");
                     }@for (var j = item.Rating; j < 10; j++)
-            {
-                    @Html.Raw("&#9734");
-            } 
-                
-                <p>@item.Description</p>
-                <p>
-                    <h4>@item.Price &#8381
-                    @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, null)</h4>
-                    </p>
+                {
+                        @Html.Raw("&#9734");
+                }
+
+                    <p>@item.Description</p>
+                    <p>
+                        <h4>
+                            @item.Price &#8381
+                        @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, null)
+                            @if (User.IsInRole("admin"))
+                            {
+                                <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
+                                <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
+                            }
+                    </h4>
+                </p>
             </div>
-        }
-    }
+            }
+        </div>
+        <div class="col-xs-3">
+            <form method="post" action="/Games/Index">            
+                @Html.Label("Поиск по названию:")  
+                <input type="text" class="form-control" name="search" />
+                @Html.Label("Поиск по категориям:")
+                <div class="form-inline">
+                    <div class="form-group">
+                        @Html.CheckBox("Fcategory", false)
+                    </div>
+                    <div class="form-group" style="margin: 0px 0px 10px 0px">
+                        @Html.DropDownList("categoryList", null, new { @class = "form-control" })
+                    </div>
+                </div> 
+                <input type="submit" class="btn btn-default" value="Найти" />
+            </form>
+        </div>
+    </div>
+}
 <div style="clear: left">
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
