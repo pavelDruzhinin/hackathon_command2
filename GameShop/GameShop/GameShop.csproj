@@ -141,6 +141,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\GameCommentsController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Providers\CustomRoleProvider.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\SalesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -258,7 +260,9 @@
     <Content Include="Views\GameComments\Delete.cshtml" />
     <Content Include="Views\GameComments\Index.cshtml" />
     <Content Include="Views\GameComments\Edit.cshtml" />
-    <Content Include="Views\Account\Admin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\SalesTop.cshtml" />
+    <Content Include="Views\Admin\SalesByDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

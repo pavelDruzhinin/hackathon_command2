@@ -168,11 +168,5 @@ namespace GameShop.Controllers
             db.SaveChanges();
             return Logout();
         }
-        // GET: /Account/Admin
-        [Authorize(Roles = "admin")]
-        public ActionResult Admin()
-        {
-            return View(db.PurchasedGames.Include(p => p.Customer).OrderByDescending(x => x.Time).ToList());
-        }
     }
 }

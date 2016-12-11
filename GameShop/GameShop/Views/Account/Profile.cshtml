@@ -72,7 +72,7 @@
             </th>
             
         </tr>
-            @foreach (var purchasedGame in Model.PurchasedGames)
+            @foreach (var purchasedGame in Model.PurchasedGames.OrderByDescending(p => p.Time))
             {
                 <tr>
                     <td>

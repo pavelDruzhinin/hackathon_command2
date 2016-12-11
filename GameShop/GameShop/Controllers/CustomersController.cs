@@ -31,7 +31,7 @@ namespace GameShop.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = db.Customers.Include(x => x.PurchasedGames).FirstOrDefault(o => o.Id == id);
             if (customer == null)
             {
                 return HttpNotFound();

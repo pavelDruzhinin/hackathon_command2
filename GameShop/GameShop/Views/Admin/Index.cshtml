@@ -1,0 +1,37 @@
+﻿@model PagedList.IPagedList<GameShop.Models.PurchasedGame>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Панель администратора";
+}
+<table class="table">
+    <caption style="text-align: left"><h2>Последние продажи</h2></caption>
+    <tr>
+        <th>
+            <b>Игра</b>
+        </th>
+        <th>
+            <b>Цена</b>
+        </th>
+        <th>
+            <b>Покупатель</b>
+        </th>
+        <th>
+            <b>Дата и время покупки</b>
+        </th>
+    </tr>
+    @{ 
+        foreach (var item in Model) {
+        <tr>
+            <td>@Html.ActionLink(item.Name, "Details", "Games", new { id = item.GameId }, null)</td>
+            <td>@item.Price &#8381</td>
+            <td>@Html.ActionLink(item.Customer.Login, "Details", "Customers", new { id = item.CustomerId }, null)</td>
+            <td>@item.Time</td>
+        </tr>
+            }
+        }
+</table>
+<div>
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

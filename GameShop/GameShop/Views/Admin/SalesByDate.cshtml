@@ -1,0 +1,30 @@
+﻿@model PagedList.IPagedList<GameShop.ViewModels.SalesViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Панель администратора";
+}
+<table class="table">
+    <caption style="text-align: left"><h2>Продажи по датам</h2></caption>
+    <tr>
+        <th>
+            <b>Дата</b>
+        </th>
+        <th>
+            <b>Продажи</b>
+        </th>
+    </tr>
+    @{
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Time.ToShortDateString()</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    }
+</table>
+<div>
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

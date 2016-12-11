@@ -27,7 +27,6 @@
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Список игр", "Index", "Games")</li>
-                    <li>@Html.ActionLink("Категории игр", "Index", "Categories")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
@@ -41,7 +40,22 @@
                             <li>@Html.ActionLink("Личный кабинет", "Profile", "Account")</li>
                         if (User.IsInRole("admin"))
                         {
-                            <li>@Html.ActionLink("Панель администратора", "Admin", "Account")</li>
+                            <li>
+                                    <a data-toggle="dropdown" href="#">Панель администратора 
+                                    <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <li>@Html.ActionLink("Добавить игру", "Create", "Games")</li>
+                                            <li class="divider"></li>
+                                            <li>@Html.ActionLink("Управление категориями", "Index", "Categories")</li>
+                                            <li>@Html.ActionLink("Управление комментариями", "Index", "GameComments")</li>
+                                            <li>@Html.ActionLink("Управление пользователями", "Index", "Customers")</li>
+                                            <li>@Html.ActionLink("Корзины покупателей", "Index", "Orders")</li>
+                                            <li class="divider"></li>
+                                            <li>@Html.ActionLink("Последние продажи", "Index", "Admin")</li>
+                                            <li>@Html.ActionLink("Топ продаж", "SalesTop", "Admin")</li>
+                                            <li>@Html.ActionLink("Продажи по датам", "SalesByDate", "Admin")</li>
+                                        </ul>
+                            </li>
                         }
                         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a></li>
                     }
