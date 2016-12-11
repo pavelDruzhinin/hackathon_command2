@@ -84,6 +84,7 @@ namespace GameShop.Controllers
                     string path = Server.MapPath("~/images/games/");  
                     string pic = Path.GetFileName(gamePoster.FileName);
                     gamePoster.SaveAs(Path.Combine(path, pic));
+                    game.GamePosterUrl = Path.Combine("/images/games/", pic);
                 }
                 db.Games.Add(game);
                 db.SaveChanges();
@@ -117,7 +118,7 @@ namespace GameShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Key,CategoryId,Price,Description")] Game game)
+        public ActionResult Edit(Game game)
         {
             if (ModelState.IsValid)
             {

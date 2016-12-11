@@ -46,7 +46,7 @@
             @foreach (var item in Model)
             {
                 <div style="width: 220px; height: 400px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
-                    <div style="width: 180px; height:180px;background-color: grey;">картинка</div>
+                    <a href="/Games/Details/@item.Id"><img src="@item.GamePosterUrl" style="width:180px; height:180px" alt="kartinka"/></a>
 
                     <h4>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h4>
                     <h5>@item.Category.Name</h5>

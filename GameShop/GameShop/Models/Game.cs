@@ -16,6 +16,7 @@ namespace GameShop.Models
         [Range(0, 10)]
         public int Rating { get; set; }
         public string Description { get; set; }
+        public string GamePosterUrl { get; set; }
         public List<OrderPosition> OrderPositions { get; set; }
         public List<GameComment> GameComments { get; set; }
     }
