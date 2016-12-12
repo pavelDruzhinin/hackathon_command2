@@ -44,7 +44,7 @@ namespace GameShop.Controllers
             }
             else { gamesPerPage = 10; } //по умолчанию
             ViewBag.gamesPerPage = gamesPerPage;
-            return View(games.OrderByDescending(g => g.Rating).ToPagedList(pageNumber, gamesPerPage));
+            return View(games.OrderByDescending(g => g.Rating).ToList().ToPagedList(pageNumber, gamesPerPage));
         }
 
         // GET: Games/Details/5

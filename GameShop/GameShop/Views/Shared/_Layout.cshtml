@@ -86,7 +86,7 @@
     function getGamesInCart() {
         var gamesInCart = getCookie("gamesInCart");
         var cart = document.getElementById("cart-link");
-        if (gamesInCart > 0 && cart != null) { cart.innerHTML = 'Корзина (' + gamesInCart + ')' };
+        if (gamesInCart > 0 && cart != null) { cart.innerHTML = 'Корзина <span class="badge">' + gamesInCart + '</span>' };
     }
     function getCookie(cname) {
         var name = cname + "=";

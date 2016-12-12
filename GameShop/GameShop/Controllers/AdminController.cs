@@ -21,21 +21,21 @@ namespace GameShop.Controllers
         public ActionResult Index(int? page)
         {
             int pageNumber = (page ?? 1);
-            return View(db.PurchasedGames.Include(p => p.Customer).OrderByDescending(x => x.Time).ToPagedList(pageNumber, 10));
+            return View(db.PurchasedGames.Include(p => p.Customer).OrderByDescending(x => x.Time).ToList().ToPagedList(pageNumber, 10));
         }
         // GET: Admin/TopSales
         public ActionResult SalesTop(int? page)
         {
             int pageNumber = (page ?? 1);
             var TopSales = db.PurchasedGames.GroupBy(x => x.Name).OrderByDescending(o => o.Count()).ToList().Select(g => new SalesViewModel { Name = g.Key, Count = g.Count(), GameId = g.ToList()[0].GameId });
-            return View(TopSales.ToPagedList(pageNumber, 10));
+            return View(TopSales.ToList().ToPagedList(pageNumber, 10));
 
         }
         public ActionResult SalesByDate(int? page)
         {
             int pageNumber = (page ?? 1);
             var SalesByDate = db.PurchasedGames.GroupBy(x => DbFunctions.TruncateTime(x.Time)).OrderByDescending(o => o.Key).ToList().Select(g => new SalesViewModel { Time = Convert.ToDateTime(g.Key), Count = g.Count() });
-            return View(SalesByDate.ToPagedList(pageNumber, 10));
+            return View(SalesByDate.ToList().ToPagedList(pageNumber, 10));
 
         }
     }

@@ -2,11 +2,14 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Панель администратора";
+    ViewBag.Title = "Топ продаж";
 }
 <table class="table">
     <caption style="text-align: left"><h2>Топ продаж</h2></caption>
     <tr>
+        <th>
+            <b>№</b>
+        </th>
         <th>
             <b>Игра</b>
         </th>
@@ -15,9 +18,11 @@
         </th>
     </tr>
     @{
+        var i = Model.PageNumber * Model.PageSize - Model.PageSize;
         foreach (var item in Model)
         {
             <tr>
+                <td>@(++i)</td>
                 <td>@Html.ActionLink(item.Name, "Details", "Games", new { id = item.GameId }, null)</td>
                 <td>@item.Count</td>
             </tr>

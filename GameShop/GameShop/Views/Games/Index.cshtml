@@ -29,7 +29,7 @@
 
 @{ 
     int gamesPerPage = ViewBag.gamesPerPage;
-    var perPageList = new int[4] { 5, 10, 20, 50 }; // массив вариантов кнопок изменения паджинации
+    var perPageList = new int[4] { 6, 12, 24, 48 }; // массив вариантов кнопок изменения паджинации
 <p>
     Игр на странице:
     @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
@@ -42,7 +42,7 @@
 </p>
 <hr />
     <div class="row">
-        <div class="col-xs-7">
+        <div class="col-xs-9">
             @foreach (var item in Model)
             {
                 <div style="width: 220px; height: 400px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
@@ -92,7 +92,7 @@
         </div>
     </div>
 }
-<div style="clear: left">
+<div class="row">
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
