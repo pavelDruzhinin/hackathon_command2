@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Список игр";
+    ViewBag.Title = "Game Store";
 }
 
 <style>
@@ -16,16 +16,6 @@
 
 </style>
                                                                                                             
-<h2>Список игр</h2>
-
-
-
-@if (User.Identity.IsAuthenticated)
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
 
 @{ 
     int gamesPerPage = ViewBag.gamesPerPage;
@@ -45,7 +35,7 @@
         <div class="col-xs-9">
             @foreach (var item in Model)
             {
-                <div style="width: 220px; height: 400px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
+                <div style="width: 220px; float: left; border: 1px solid grey; padding: 10px; margin: 15px">
                     <a href="/Games/Details/@item.Id"><img src="@item.GamePosterUrl" style="width:180px; height:180px" alt="kartinka"/></a>
 
                     <h4>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h4>
@@ -54,21 +44,16 @@
                     {
                         @Html.Raw("&#9733");
                     }@for (var j = item.Rating; j < 10; j++)
-                {
+{
                         @Html.Raw("&#9734");
-                }
+}
 
                     <p class="descript">@item.Description</p>
                     <p>
                         <h4>
                             @item.Price &#8381
-                        @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, null)
+                        @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, new {@class = "right add-cart"})
 
-                            @if (User.IsInRole("admin"))
-                            {
-                                <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
-                                <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
-                            }
                     </h4>
                 </p>
             </div>
@@ -92,7 +77,7 @@
         </div>
     </div>
 }
-<div class="row">
+<div style="clear:left">
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

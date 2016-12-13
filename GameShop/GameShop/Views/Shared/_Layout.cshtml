@@ -1,92 +1,128 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-
-
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("GameShop", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Список игр", "Index", "Games")</li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
+	<!-- Обвертка -->
+    <div id="wrapper">
+        <!-- Верхняя панель -->
+        <div class="panel-top">
+            <div class="center clearfix">
+                @if (User.Identity.IsAuthenticated)
+                {
+                <div class="basket">
+                    @Html.ActionLink("Корзина", "Cart", "Orders", null, new { id = "cart-link" })
+                </div>
+                }
+                <div class="login">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        
+                        @Html.ActionLink("Личный кабинет", "Profile", "Account")
+                        <span>/</span>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a>
                         using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
                         {
                             @Html.AntiForgeryToken()
                         }
-                            <li>@Html.ActionLink("Корзина", "Cart", "Orders", null, new { id = "cart-link" })</li>
-                            <li>@Html.ActionLink("Личный кабинет", "Profile", "Account")</li>
-                        if (User.IsInRole("admin"))
-                        {
-                            <li>
-                                    <a data-toggle="dropdown" href="#">Панель администратора 
-                                    <span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                            <li>@Html.ActionLink("Добавить игру", "Create", "Games")</li>
-                                            <li class="divider"></li>
-                                            <li>@Html.ActionLink("Управление категориями", "Index", "Categories")</li>
-                                            <li>@Html.ActionLink("Управление комментариями", "Index", "GameComments")</li>
-                                            <li>@Html.ActionLink("Управление пользователями", "Index", "Customers")</li>
-                                            <li>@Html.ActionLink("Корзины покупателей", "Index", "Orders")</li>
-                                            <li class="divider"></li>
-                                            <li>@Html.ActionLink("Последние продажи", "Index", "Admin")</li>
-                                            <li>@Html.ActionLink("Топ продаж", "SalesTop", "Admin")</li>
-                                            <li>@Html.ActionLink("Продажи по датам", "SalesByDate", "Admin")</li>
-                                        </ul>
-                            </li>
-                        }
-                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти (@User.Identity.Name)</a></li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Вход", "Login", "Account")</li> 
-                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                        @Html.ActionLink("Вход", "Login", "Account")
+                        <span>/</span>
+                        @Html.ActionLink("Регистрация", "Register", "Account")
                     }
-                </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
-    </div>
+        <!-- // Верхняя панель -->
+        <!-- Шапка сайта -->
+        <div id="header" class="center clearfix">
+            <!-- Логотип -->
+            <div id="logo" class="left">
+                <a href="/">
+                    <img src="/images/logo.png" height="60" width="61" alt="Game Store" />
+                    <span>Game Store</span>
+                </a>
+            </div>
+            <!-- // Логотип -->
+            <!-- Навигация -->
+            <ul class="nav right clearfix">
+                <li><a href="/">ГЛАВНАЯ</a></li>
+                <li><a href="/">НОВОСТИ</a></li>
+                <li>@Html.ActionLink("КОНТАКТЫ", "Contact", "Home")</li>
+                <li>
+                    @if (User.IsInRole("admin"))
+                    {
+                    <a data-toggle="dropdown" href="#">
+                        Панель администратора
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>@Html.ActionLink("Добавить игру", "Create", "Games")</li>
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Управление категориями", "Index", "Categories")</li>
+                        <li>@Html.ActionLink("Управление комментариями", "Index", "GameComments")</li>
+                        <li>@Html.ActionLink("Управление пользователями", "Index", "Customers")</li>
+                        <li>@Html.ActionLink("Корзины покупателей", "Index", "Orders")</li>
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Последние продажи", "Index", "Admin")</li>
+                        <li>@Html.ActionLink("Топ продаж", "SalesTop", "Admin")</li>
+                        <li>@Html.ActionLink("Продажи по датам", "SalesByDate", "Admin")</li>
+                    </ul>
+                    }
+                </li>
+            </ul>
+            <!-- // Навигация -->
+        </div>
+        <!-- // Шапка сайта -->
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        <div id="home">
+            <div class="home-bg">
+                <div class="center">
+                    <a href="/" class="link-home">&nbsp;</a>
+                    <h2 class="title-home">ИНТЕРНЕТ-МАГАЗИН КОМПЬЮТЕРНЫХ ИГР</h2>
+                   <!--<ul class="breadcrumbs clearfix">
+                        <li><a href="/">Главная</a><span class="sp">&raquo;</span></li>
+                        <li><a href="/">Магазин</a><span class="sp">&raquo;</span></li>
+                    </ul>--> 
+                </div>
+            </div>
+        </div> 
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </div>
+	<!-- // Обвертка --> 
+<div id="footer">
+		<a href="#home-link" class="home-link">&nbsp;</a>
+		<div class="footer-bottom">
+			<div class="center">
+				<a href="/">Главная</a>
+				<a href="/">Новости</a>
+				@Html.ActionLink("Контакты", "Contact", "Home")    
+				<p class="right">&copy; 2016 Game-store.ru</p>
+			</div>          
+		</div>
+	</div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+
+
 </body>
 </html>
-<script>// скрипт для показа количества игр в кнопке "Корзина"
+<script>
+// скрипт для показа количества игр в кнопке "Корзина"
     window.onload = getGamesInCart();
     function getGamesInCart() {
         var gamesInCart = getCookie("gamesInCart");
         var cart = document.getElementById("cart-link");
-        if (gamesInCart > 0 && cart != null) { cart.innerHTML = 'Корзина <span class="badge">' + gamesInCart + '</span>' };
+        if (gamesInCart > 0 && cart != null) { cart.innerHTML = 'Корзина (' + gamesInCart + ')' };
     }
     function getCookie(cname) {
         var name = cname + "=";
