@@ -110,11 +110,11 @@ a, a:hover {color: #000; text-decoration: none;}
 
 /* Навигация */
 .nav {margin-top: 15px;}
-.nav li {
+.nav>li {
 	position: relative;
 	float: left;
 }
-.nav li + li {margin-left: 30px;}
+.nav li + li /*{margin-left: 30px;}*/
 .nav li:before {
 	content: "";
 	position: absolute;
@@ -249,7 +249,7 @@ a, a:hover {color: #000; text-decoration: none;}
 
 
 .middle {
-	padding-bottom: 300px;
+	/*padding-bottom: 300px;*/
 }
 
 .sidebar {
@@ -392,10 +392,10 @@ a, a:hover {color: #000; text-decoration: none;}
 
 .products {
 	width: 215px;
-	height: 370px;
+	/*height: 370px;*/
 	float: left;
-	margin-right: 15px;
-	margin-bottom: 15px;
+	margin-left: 10px;
+	margin-bottom: 10px;
 	overflow: hidden;
 	background: #FFF;
 	-webkit-border-radius: 5px;
