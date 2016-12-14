@@ -54,7 +54,7 @@ namespace GameShop.Controllers
             news.CreateDate = DateTime.Now;     // при создании новости сохраняем дату создания
             news.ModifyDate = DateTime.Now;     // при создании новости дата модификации равна дате создания
             news.NewsFeedId = 1;                // у нас по-умолчанию все новости для ленты с id=1 (используем одну ленту)
-            news.NewsFeedId = 1;                // тест для sourcetree - не видит этого контроллера
+            //news.NewsFeedId = 1;                // тест для sourcetree - увидит ли изменения в этом "балыбердинском" контроллере?
             if (ModelState.IsValid)
             {
                 db.News.Add(news);
