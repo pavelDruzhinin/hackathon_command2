@@ -147,9 +147,13 @@
     <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\NewsFeedsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="DataAccess\GameShopContext.cs" />
     <Compile Include="DataAccess\Mapping\CategoryMap.cs" />
+    <Compile Include="DataAccess\Mapping\NewsFeed.cs" />
+    <Compile Include="DataAccess\Mapping\NewsMap.cs" />
     <Compile Include="DataAccess\Mapping\CustomerMap.cs" />
     <Compile Include="DataAccess\Mapping\GameCommentMap.cs" />
     <Compile Include="DataAccess\Mapping\GameMap.cs" />
@@ -180,8 +184,14 @@
     <Compile Include="Migrations\201612102335551_modifyGameModel.Designer.cs">
       <DependentUpon>201612102335551_modifyGameModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612140430083_add_News_and_NewsFeed.cs" />
+    <Compile Include="Migrations\201612140430083_add_News_and_NewsFeed.Designer.cs">
+      <DependentUpon>201612140430083_add_News_and_NewsFeed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\NewsFeed.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameComment.cs" />
@@ -264,6 +274,16 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\SalesTop.cshtml" />
     <Content Include="Views\Admin\SalesByDate.cshtml" />
+    <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Delete.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\NewsFeeds\Create.cshtml" />
+    <Content Include="Views\NewsFeeds\Delete.cshtml" />
+    <Content Include="Views\NewsFeeds\Details.cshtml" />
+    <Content Include="Views\NewsFeeds\Edit.cshtml" />
+    <Content Include="Views\NewsFeeds\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -292,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612102335551_modifyGameModel.resx">
       <DependentUpon>201612102335551_modifyGameModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612140430083_add_News_and_NewsFeed.resx">
+      <DependentUpon>201612140430083_add_News_and_NewsFeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -53,7 +53,7 @@
             <!-- Навигация -->
             <ul class="nav right clearfix">
                 <li><a href="/">ГЛАВНАЯ</a></li>
-                <li><a href="/">НОВОСТИ</a></li>
+                <li>@Html.ActionLink("НОВОСТИ", "Index", "News")</li> <!-- <li><a href="/">НОВОСТИ</a></li> -->
                 <li>@Html.ActionLink("КОНТАКТЫ", "Contact", "Home")</li>
                 <li>
                     @if (User.IsInRole("admin"))

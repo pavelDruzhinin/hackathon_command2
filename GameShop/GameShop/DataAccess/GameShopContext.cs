@@ -31,6 +31,8 @@ namespace GameShop.DataAccess
             modelBuilder.Configurations.Add(new GameCommentMap());
             modelBuilder.Configurations.Add(new RoleMap());
             modelBuilder.Configurations.Add(new PurchasedGameMap());
+            modelBuilder.Configurations.Add(new NewsMap());     //Балыбердин
+            modelBuilder.Configurations.Add(new NewsFeedMap()); //Балыбердин
         }
 
         public DbSet<Game> Games { get; set; }
@@ -41,5 +43,7 @@ namespace GameShop.DataAccess
         public DbSet<OrderPosition> OrderPositions { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<PurchasedGame> PurchasedGames { get; set; }
+        public DbSet<News> News { get; set; }                   //Балыбердин
+        public DbSet<NewsFeed> NewsFeeds { get; set; }          //Балыбердин
     }
 }

@@ -95,7 +95,7 @@ namespace GameShop.Controllers
                 }
                 if ((loginExists == false) && (emailExists == false) && ModelState.IsValid)
                 {
-                    customer.RoleId = 3;
+                    customer.RoleId = 1;
                     db.Customers.Add(customer);
                     db.SaveChanges();
                     TempData["registrationSuccess"] = "Регистрация успешна!";
@@ -104,6 +104,7 @@ namespace GameShop.Controllers
             }
             else
             {
+                //customer.RoleId = 3;
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 TempData["registrationSuccess"] = "Регистрация успешна!";

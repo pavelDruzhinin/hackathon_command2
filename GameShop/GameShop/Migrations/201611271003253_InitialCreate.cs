@@ -66,7 +66,8 @@ namespace GameShop.Migrations
                         Birthday = c.DateTime(nullable: false),
                         Login = c.String(nullable: false),
                         Password = c.String(nullable: false),
-                    })
+                        Email = c.String(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
             
         }
