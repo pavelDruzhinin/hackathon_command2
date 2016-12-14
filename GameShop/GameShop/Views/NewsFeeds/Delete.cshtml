@@ -1,0 +1,31 @@
+﻿@model GameShop.Models.NewsFeed
+
+@{
+    ViewBag.Title = "Удаление ленты новостей";
+}
+
+<h2>Удаление ленты новостей</h2>
+<br>
+<h3>Вы хотите удалить эту ленту новостей! Вы уверены?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label class="control-label col-md-2" for="Name">Название ленты новостей</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+    <br>
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить ленту новостей" class="btn btn-default" /> |
+            @Html.ActionLink("Возврат к списку лент новостей", "Index")
+        </div>
+    }
+</div>

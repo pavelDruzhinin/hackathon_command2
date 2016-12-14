@@ -1,0 +1,58 @@
+﻿@model IEnumerable<GameShop.Models.News>
+
+@{
+    ViewBag.Title = "Новости портала";
+}
+
+<h2>Новости портала</h2>
+
+<br>
+<div>
+    <h3>@Html.ActionLink("Добавить новость", "Create")</h3>
+    <h3>@Html.ActionLink("Добавить ленту", "Index", "NewsFeeds")</h3>
+</div>
+<br>
+
+<div>
+@foreach (var item in Model)
+{
+    <table class="table">
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewsHeader)
+                <br>
+                @Html.DisplayFor(modelItem => item.NewsBody)
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                Дата создания: @Html.DisplayFor(modelItem => item.CreateDate)
+                <br>
+                Дата изменения: @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    </table>
+}
+</div>
+
+<div>
+    @Html.ActionLink("Возврат к списку новостей", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+﻿@model GameShop.Models.News
+
+@{
+    ViewBag.Title = "Удаление новости";
+}
+
+<h2>Удаление новости</h2>
+
+<h3>Вы хотите удалить эту новость! Вы уверены?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+ <!--       <dt>
+            @Html.DisplayNameFor(model => model.NewsFeed.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewsFeed.Name)
+        </dd>
+     -->
+
+        <dt>
+            <label class="control-label col-md-2" for="Name">Заголовок новости</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewsHeader)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2" for="Name">Текст новости</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewsBody)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2" for="Name">Дата создания новости</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            <label class="control-label col-md-2" for="Name">Дата последнего изменения новости</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifyDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить новость" class="btn btn-default" /> |
+            @Html.ActionLink("Возврат к списку новостей", "Index")
+        </div>
+    }
+</div>
