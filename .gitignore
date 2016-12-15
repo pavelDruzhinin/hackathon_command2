@@ -247,4 +247,4 @@ ModelManifest.xml
 # Назойливые файлы
 *.vs/
 */obj/
-*/images/games/
+*/GameShop/images/games/
