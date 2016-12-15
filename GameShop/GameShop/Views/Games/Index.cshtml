@@ -4,35 +4,60 @@
 @{
     ViewBag.Title = "Game Store";
 }
-                                                                                                            
+                              
+<div class="sorting center clearfix">
+    <ul class="s-category clearfix">
+        <li class="active">@Html.ActionLink("ВСЕ", "Index")</li>
+        
+        @foreach (var cat in ((List<GameShop.Models.Category>)ViewBag.categoryList2))
+            {
+            <li>
+                @Html.ActionLink(cat.Name, "Index", new { categoryList = cat.Id, Fcategory = true })
+            </li>
+        }
+    </ul>
+</div>
+                                                                              
 <div class="middle clearfix center">
     <div class="sidebar">
-        
             <h4 class="s-title">ПОИСК ПО ИГРАМ <span class="s-title-br"></span></h4>
-            <form method="post" action="/Games/Index">
-                <input type="text" class="form-control" name="search" />
-                @Html.Label("Поиск по категориям:")
+            <form method="get" action="" class="navbar-form" role="search">
+                <input type="text" class="form-control" placeholder="Искать" name="search"  style="width: 150px"/>
+             @*   @Html.Label("Поиск по категориям:")
                 <div class="form-inline">
                     <div class="form-group">
-                        @Html.CheckBox("Fcategory", false)
+                        @Html.CheckBox("Fcategory")
                     </div>
                     <div class="form-group" style="margin: 0px 0px 10px 0px">
                         @Html.DropDownList("categoryList", null, new { @class = "form-control" })
                     </div>
-                </div>
-                <input type="submit" class="btn btn-default" value="Найти" />
+                </div>*@
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
+        <br />
+        @if (ViewBag.Bestseller != null) {// Паршиал вью для Бестселлера
+            @Html.Partial("Bestseller", (GameShop.Models.Game)ViewBag.Bestseller);
+        }
+        <br />
+        <h4 class="s-title">КАТЕГОРИИ <span class="s-title-br"></span></h4>
+        <ul class="cat-lsit">
+            @foreach (var cat in ((List<GameShop.Models.Category>)ViewBag.categoryList2))
+            {
+                <li>
+                    @Html.ActionLink(cat.Name, "Index", new { categoryList = cat.Id, Fcategory = true })
+                </li>
+            }
+        </ul>
         </div>
-
     <div class="content">
         <div class="product-catalog clearfix">
 
             <!--начало вывода игры-->
     @{
         int gamesPerPage = ViewBag.gamesPerPage;
-        var perPageList = new int[4] { 6, 12, 24, 48 }; // массив вариантов кнопок изменения паджинации
+        var perPageList = new int[4] {6, 12, 24, 48 }; // массив вариантов кнопок изменения паджинации
         <p>
-            Игр на странице:
+            Показывать на странице:
             @foreach (var perPage in perPageList) // выводим кнопки изменения паджинации
             {
                 if (perPage == gamesPerPage)
@@ -44,19 +69,18 @@
         <br />
         foreach (var item in Model)
         {
-            int rating;
-            rating = item.Rating * 10;
+            int rating = item.Rating * 10;
                         <div class="products">
                             
                             <div class="p-img">
                                 <a href="/Games/Details/@item.Id"><img src="@item.GamePosterUrl" height="220" width="220" alt="" /></a>
                             </div>
                             <div class="p-footer">
-                                <h6>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h6>
+                                <h6  style="width: 180px; height: 30px; overflow: hidden">@Html.ActionLink(item.Name, "Details", new { id = item.Id })</h6>
                                 <div class="rate">
                                     <div style="width: @rating%;"></div>
                                 </div>
-                                <div style="width: 180px; height: 30px; overflow: hidden; text-overflow: ellipsis">@item.Description</div>
+                                <div style="width: 180px; height: 30px; overflow: hidden">@item.Description</div>
                                 <div class="p-footer-price clearfix">
                                     <span class="price-lg">@item.Price ₽ </span>
                                     @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = item.Id }, new { @class = "right add-cart" })
@@ -70,7 +94,7 @@
             </div>
 
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page , categoryList = Request.Params["categoryList"], Fcategory = Request.Params["Fcategory"], search = Request.Params["search"] }))
 
 <script>
     function setGamesPerPage(gamesPerPage) {

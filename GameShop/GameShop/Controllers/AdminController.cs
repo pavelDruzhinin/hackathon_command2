@@ -27,15 +27,15 @@ namespace GameShop.Controllers
         public ActionResult SalesTop(int? page)
         {
             int pageNumber = (page ?? 1);
-            var TopSales = db.PurchasedGames.GroupBy(x => x.Name).OrderByDescending(o => o.Count()).ToList().Select(g => new SalesViewModel { Name = g.Key, Count = g.Count(), GameId = g.ToList()[0].GameId });
-            return View(TopSales.ToList().ToPagedList(pageNumber, 10));
+            var topSales = db.PurchasedGames.GroupBy(x => x.Name).OrderByDescending(o => o.Count()).ToList().Select(g => new SalesViewModel { Name = g.Key, Count = g.Count(), GameId = g.ToList()[0].GameId });
+            return View(topSales.ToList().ToPagedList(pageNumber, 10));
 
         }
         public ActionResult SalesByDate(int? page)
         {
             int pageNumber = (page ?? 1);
-            var SalesByDate = db.PurchasedGames.GroupBy(x => DbFunctions.TruncateTime(x.Time)).OrderByDescending(o => o.Key).ToList().Select(g => new SalesViewModel { Time = Convert.ToDateTime(g.Key), Count = g.Count() });
-            return View(SalesByDate.ToList().ToPagedList(pageNumber, 10));
+            var salesByDate = db.PurchasedGames.GroupBy(x => DbFunctions.TruncateTime(x.Time)).OrderByDescending(o => o.Key).ToList().Select(g => new SalesViewModel { Time = Convert.ToDateTime(g.Key), Count = g.Count() });
+            return View(salesByDate.ToList().ToPagedList(pageNumber, 10));
 
         }
     }

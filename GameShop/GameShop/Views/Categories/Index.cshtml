@@ -1,16 +1,13 @@
 ﻿@model IEnumerable<GameShop.Models.Category>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Категории";
 }
 
-<h2>Index</h2>
-@if (User.Identity.IsAuthenticated)
-{
+<h2>Категории</h2>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Создать категорию", "Create")
     </p>
-}
 
 <table class="table">
     <tr>
@@ -26,12 +23,8 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <span>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |</span>
-                <span>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
-            }
-            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                <span>@Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |</span>
+                <span>@Html.ActionLink("Удалить", "Delete", new { id = item.Id })</span>
         </td>
     </tr>
 }

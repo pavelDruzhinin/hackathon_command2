@@ -22,8 +22,14 @@ namespace GameShop.Controllers
         {
 
             var games = db.Games.Include(g => g.Category);
-
-            ViewBag.CategoryList = new SelectList(db.Categories, "Id", "Name");
+            var salesTop = db.PurchasedGames.GroupBy(x => x.Name).OrderByDescending(o => o.Count()).ToList().Select(g => new  { Name = g.Key, Count = g.Count(), GameId = g.ToList()[0].GameId });
+            if (salesTop != null)
+            {
+                var bestsellerId = salesTop.ToList()[0].GameId; 
+                ViewBag.Bestseller = games.Include(g => g.GameComments).FirstOrDefault(x => x.Id == bestsellerId);
+            }
+            // ViewBag.CategoryList = new SelectList(db.Categories, "Id", "Name");
+            ViewBag.CategoryList2 = db.Categories.ToList();
 
             if (!string.IsNullOrWhiteSpace(search))
             {

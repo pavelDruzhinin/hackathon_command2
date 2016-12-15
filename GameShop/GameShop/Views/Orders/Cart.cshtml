@@ -22,7 +22,7 @@
                 <td>@orderPosition.Game.Name</td>
                 <td>@orderPosition.Game.Category.Name</td>
                 <td>@(orderPosition.Game.Price)</td>
-                <td><button type="button" class="btn btn-default">@Html.ActionLink("Удалить", "Remove", "Orders", new { id = orderPosition.Id }, null)</button></td>
+                <td>@Html.ActionLink("Удалить", "Remove", "Orders", new { id = orderPosition.Id }, new { @class = "btn btn-default" })</td>
             </tr>
         }
 
@@ -44,7 +44,7 @@
         loadingImg.style.cssText = "position: absolute; top: 33%; left: 40%;";
         document.getElementById("payScreenDiv").appendChild(loadingImg);
     
-        setTimeout("paymentRecieved()", 5000);
+        setTimeout("paymentRecieved()", 4000);
     }
     function paymentRecieved() {
         alert("Оплата прошла успешно! Вы будете перенаправлены в Ваш личный кабинет");

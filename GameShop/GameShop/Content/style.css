@@ -38,7 +38,8 @@ ol, ul {list-style: none;}
 	box-sizing: border-box;
 }
 
-a, a:hover {color: #000; text-decoration: none;}
+a {color: #000; text-decoration: none;}
+a:hover {color: #000; text-decoration: underline;}
 
 
 .clearfix:before,

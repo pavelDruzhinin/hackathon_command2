@@ -11,6 +11,7 @@ using GameShop.Models;
 
 namespace GameShop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CategoriesController : Controller
     {
         private GameShopContext db = new GameShopContext();
