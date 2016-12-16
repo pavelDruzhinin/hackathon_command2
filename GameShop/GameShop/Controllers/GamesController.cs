@@ -22,9 +22,9 @@ namespace GameShop.Controllers
         {
 
             var games = db.Games.Include(g => g.Category);
-            var salesTop = db.PurchasedGames.GroupBy(x => x.Name).OrderByDescending(o => o.Count()).ToList().Select(g => new  { Name = g.Key, Count = g.Count(), GameId = g.ToList()[0].GameId });
-            if (salesTop != null)
-            {
+            if (db.PurchasedGames.FirstOrDefault() != null)
+            { 
+                var salesTop = db.PurchasedGames.GroupBy(x => x.Name).OrderByDescending(o => o.Count()).ToList().Select(g => new  { Name = g.Key, Count = g.Count(), GameId = g.ToList()[0].GameId });
                 var bestsellerId = salesTop.ToList()[0].GameId; 
                 ViewBag.Bestseller = games.Include(g => g.GameComments).FirstOrDefault(x => x.Id == bestsellerId);
             }
