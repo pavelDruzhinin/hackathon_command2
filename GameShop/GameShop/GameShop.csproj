@@ -188,6 +188,10 @@
     <Compile Include="Migrations\201612140430083_add_News_and_NewsFeed.Designer.cs">
       <DependentUpon>201612140430083_add_News_and_NewsFeed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612170924012_addDiscr.cs" />
+    <Compile Include="Migrations\201612170924012_addDiscr.Designer.cs">
+      <DependentUpon>201612170924012_addDiscr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\NewsFeed.cs" />
@@ -315,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612140430083_add_News_and_NewsFeed.resx">
       <DependentUpon>201612140430083_add_News_and_NewsFeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612170924012_addDiscr.resx">
+      <DependentUpon>201612170924012_addDiscr.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

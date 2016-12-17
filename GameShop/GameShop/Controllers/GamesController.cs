@@ -124,10 +124,18 @@ namespace GameShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Edit(Game game)
+        public ActionResult Edit(Game game, HttpPostedFileBase gamePoster)
         {
             if (ModelState.IsValid)
             {
+                if (gamePoster != null && gamePoster.ContentLength > 0)
+                {
+                    string path = Server.MapPath("~/images/games/");
+                    string pic = Path.GetFileName(gamePoster.FileName);
+                    gamePoster.SaveAs(Path.Combine(path, pic));
+                    game.GamePosterUrl = Path.Combine("/images/games/", pic);
+                }
+
                 db.Entry(game).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

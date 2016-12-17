@@ -36,7 +36,7 @@
                 </dt>
 
                 <dd>
-
+                    @Html.DisplayFor(model => model.PubDate)
                 </dd>
 
                 <dt>
@@ -49,7 +49,7 @@
             </dl>
         </div>
     </div>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal" style="margin: 30px 10px 10px 10px">
         <dt>
             @Html.Label("Описание:")
         </dt>
@@ -58,22 +58,26 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
-        <dt>
+        <dt style="margin-top: 20px">
             @Html.Label("Системные требования:")
         </dt>
 
-        <dd>
-
+        <dd style="margin-top: 20px">
+            @Html.DisplayFor(model => model.SystemRequirement)
         </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Редактировать Игру", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Каталог", "Index") |
-    @Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = Model.Id }, null)
+    <div class="btn-group" style="margin-top: 20px">
+        @if(User.IsInRole("Admin") || User.IsInRole("Moder")) { 
+            <button type="button" class="btn btn-default">@Html.ActionLink("Редактировать Игру", "Edit", new { id = Model.Id })</button>
+        }
+        <button type="button" class="btn btn-default">@Html.ActionLink("Каталог", "Index")</button>
+        <button type="button" class="btn btn-default">@Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = Model.Id }, null)</button>
+</div>
 </p>
 <hr/>
-@Html.ActionLink("Оставить свой отзыв", "Create", "GameComments", new { id = Model.Id }, null)
+<button type="button" class="btn btn-success">@Html.ActionLink("Оставить свой отзыв", "Create", "GameComments", new { id = Model.Id }, null)</button>
 <hr />
 <h4>
     Отзывы:
