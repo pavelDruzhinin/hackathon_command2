@@ -69,8 +69,9 @@
 </div>
 <p>
     <div class="btn-group" style="margin-top: 20px">
-        @if(User.IsInRole("Admin") || User.IsInRole("Moder")) { 
+        @if(User.IsInRole("admin") || User.IsInRole("Moder")) { 
             <button type="button" class="btn btn-default">@Html.ActionLink("Редактировать Игру", "Edit", new { id = Model.Id })</button>
+            <button type="button" class="btn btn-default">@Html.ActionLink("Удалить Игру", "Delete", new { id = Model.Id })</button>
         }
         <button type="button" class="btn btn-default">@Html.ActionLink("Каталог", "Index")</button>
         <button type="button" class="btn btn-default">@Html.ActionLink("В корзину", "AddToCart", "Orders", new { id = Model.Id }, null)</button>
@@ -112,23 +113,25 @@
     for (var i = startComment; i >= Math.Max(startComment - (commentsPerPage - 1), 0); i--) //  (вывод комментов из базы в обратном порядке)
     {
         <div>
-            <p>
+            <p style="margin-bottom: 10px">
                 @Model.GameComments[i].Time пользователь <b>
                 @Model.GameComments[i].Customer.FirstName
                 @Model.GameComments[i].Customer.LastName
             </b>  оставил отзыв:
         </p>
-        <p>Оценка: @Model.GameComments[i].Rating</p>
-        <p>@Model.GameComments[i].Comment</p>
+        <p style="margin-bottom: 10px">Оценка: @Model.GameComments[i].Rating</p>
+        <p style="margin: 20px">@Model.GameComments[i].Comment</p>
         @if (User.IsInRole("admin")) //кнопки редактирования/удаления комментов только админам
         {
-            <p>@Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = Model.GameComments[i].Id }, null) |
-            @Html.ActionLink("Удалить", "Delete", "GameComments", new { id = Model.GameComments[i].Id }, null) </p>
+            <div class="btn-group" style="margin-top: 10px">
+                <button type="button" class="btn btn-default">@Html.ActionLink("Редактировать", "Edit", "GameComments", new { id = Model.GameComments[i].Id }, null)</button>
+                <button type="button" class="btn btn-default">@Html.ActionLink("Удалить", "Delete", "GameComments", new { id = Model.GameComments[i].Id }, null)</button>
+            </div>
         }
         <hr />
     </div>
     }
-    <p style="font-size: 20px">
+    <p style="font-size: 20px; margin-bottom: 10px; text-align: center">
     @for (var i = 1; i <= pagesCount; i++) //выводим кнопки страниц
     {
         if (i != currentPage)  {  @Html.ActionLink(i.ToString(), "Details", new { page = i, id = Model.Id }) }
